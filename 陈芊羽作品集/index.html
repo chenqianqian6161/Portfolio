@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>陈芊羽のPortfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* 封面笔刷字体 */
+    @font-face {
+      font-family: 'HuangLingDong';
+      src: url('黄令东齐伕程瀛（fallback）.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --bg: #fefcf8;
+      --surface: #ffffff;
+      --ink: #1a1e38;
+      --ink-soft: #5a5e78;
+      --ink-faint: #b8bcd0;
+      --accent: #f07010;
+      --accent-dark: #d05800;
+      --warm: #fef8f0;
+      --warm-deep: #f8e8d0;
+      --sage: #4070c0;
+      --sage-light: #6888d0;
+      --page-w: 1100px;
+      --section-pad: clamp(64px, 8vw, 120px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(250, 247, 244, 0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--ink-faint);
+    }
+    .nav-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0 clamp(32px, 8vw, 120px);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fdd8b0 0%, #f8b870 25%, #f0a070 40%, #c8a0d0 55%, #6898e0 75%, #2870f0 100%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.45);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 120px;
+      background: linear-gradient(180deg, transparent, #d8e4f0);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 48px;
+    }
+    .hero-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .hero-photo-side {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      animation: rise 1s 1.1s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-photo {
+      width: 480px;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 200px 200px 24px 24px;
+      -webkit-mask-image: radial-gradient(ellipse 60% 65% at 50% 45%, black 20%, transparent 100%);
+      mask-image: radial-gradient(ellipse 60% 65% at 50% 45%, black 20%, transparent 100%);
+      filter: drop-shadow(0 8px 32px rgba(0,0,0,0.08));
+    }
+    .hero-photo-caption {
+      font-family: 'Noto Serif SC', 'STSong', serif;
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; text-align: center; }
+      .hero-text { align-items: center; }
+      .hero-photo { width: 300px; height: 380px; }
+      .hero-photo-side { margin-top: 24px; }
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise 0.8s 0.3s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-name {
+      font-family: 'HuangLingDong', 'Noto Serif SC', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: rise 0.9s 0.5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-name .no { color: var(--accent); font-size: 0.85em; margin: 0 0.05em; }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--ink-soft);
+      max-width: 520px;
+      font-weight: 300;
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise 0.8s 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 64px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise 0.8s 0.9s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-tag {
+      padding: 8px 20px;
+      border: 1px solid var(--ink-faint);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.05em;
+      transition: all 0.25s;
+    }
+    .hero-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px;
+      left: clamp(32px, 8vw, 120px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      opacity: 0;
+      animation: fade 1s 1.4s forwards;
+    }
+    .scroll-line {
+      width: 48px;
+      height: 1px;
+      background: var(--ink-faint);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: scan 2s 1.8s infinite;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: var(--section-pad) clamp(32px, 8vw, 120px); }
+    .container { max-width: var(--page-w); margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      max-width: 560px;
+      margin-bottom: 64px;
+    }
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 48px;
+    }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── ABOUT ── */
+    .about {
+      background: linear-gradient(180deg, #d8e4f0 0%, #eef2f8 30%, #fefcf8 100%);
+    }
+    .education {
+      background: #fefcf8;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+      line-height: 2;
+    }
+    .about-photos {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 10px;
+    }
+    .ap-row {
+      display: flex;
+      gap: 16px;
+    }
+    .ap-row-top {
+      justify-content: flex-start;
+    }
+    .ap-row-bot {
+      justify-content: flex-end;
+    }
+    .ap-img-wrap {
+      border-radius: 48% 52% 50% 50% / 46% 54% 46% 54%;
+      overflow: hidden;
+      position: relative;
+    }
+    .ap-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 48% 52% 50% 50% / 46% 54% 46% 54%;
+      background: rgba(255,255,255,0.9);
+      filter: blur(24px);
+      z-index: -1;
+    }
+    .ap-img-wrap.bot {
+      border-radius: 52% 48% 50% 50% / 54% 46% 54% 46%;
+    }
+    .ap-img-wrap.bot::after {
+      border-radius: 52% 48% 50% 50% / 54% 46% 54% 46%;
+    }
+    .ap-img-wrap img {
+      width: 200px;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      border-radius: inherit;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .stat-card {
+      background: var(--warm);
+      padding: 32px 28px;
+    }
+    .stat-card:first-child { border-radius: 12px 0 0 0; }
+    .stat-card:nth-child(2) { border-radius: 0 12px 0 0; }
+    .stat-card:nth-child(3) { border-radius: 0 0 0 12px; }
+    .stat-card:last-child { border-radius: 0 0 12px 0; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--ink-soft); letter-spacing: 0.05em; }
+
+    /* ── EDUCATION ── */
+    .edu-list { display: flex; flex-direction: column; gap: 40px; }
+    .edu-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 48px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--ink-faint);
+    }
+    .edu-period {
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.08em;
+      padding-top: 6px;
+    }
+    .edu-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .edu-degree { font-size: 0.85rem; color: var(--accent); margin-bottom: 16px; }
+    .edu-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 2; }
+    .edu-gpa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 6px 14px;
+      background: var(--warm);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience {
+      background: #fffdf8;
+    }
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--ink-faint);
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 60px;
+    }
+    .exp-meta { padding-top: 4px; }
+    .exp-company {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .exp-role { font-size: 0.82rem; color: var(--accent); margin-bottom: 12px; }
+    .exp-period {
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+    }
+    .exp-points { display: flex; flex-direction: column; gap: 14px; }
+    .exp-point {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.9;
+      padding-left: 18px;
+      position: relative;
+    }
+    .exp-point::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .exp-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--warm);
+      border-radius: 4px;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    /* ── PROJECTS ── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .proj-card {
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--ink-faint);
+      transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s;
+    }
+    .proj-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(26,23,20,0.1);
+    }
+    .proj-header {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-header-photo {
+      padding: 0;
+    }
+    .proj-header-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .proj-card:nth-child(1) .proj-header { background: linear-gradient(135deg, #d4785a 0%, #e8a88a 100%); }
+    .proj-card:nth-child(2) .proj-header { background: linear-gradient(135deg, #8a9e8b 0%, #c8d9c9 100%); }
+    .proj-emoji {
+      font-size: 4rem;
+      opacity: 0.9;
+    }
+    .proj-body { padding: 32px; }
+    .proj-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .proj-role { font-size: 0.78rem; color: var(--accent); margin-bottom: 16px; }
+    .proj-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.9; margin-bottom: 20px; }
+    .proj-metrics { display: flex; gap: 20px; flex-wrap: wrap; }
+    .proj-metric {
+      display: flex;
+      flex-direction: column;
+    }
+    .proj-metric-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .proj-metric-label {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+    .proj-more-toggle {
+      margin-top: 14px;
+      padding: 10px 16px;
+      background: var(--warm);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .proj-more-toggle:hover { background: #e8ddd6; }
+    .proj-more-toggle .toggle-arrow {
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .proj-more-toggle.open .toggle-arrow { transform: rotate(180deg); }
+    .proj-pdf-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proj-pdf-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #f5f0ec;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .proj-pdf-item:hover { background: #ede6de; color: var(--accent); }
+    }
+    .proj-metric-label { font-size: 0.72rem; color: var(--ink-faint); }
+    /* 精选项目卡片 - 图片展示 */
+    .proj-card-featured .proj-body { padding-bottom: 24px; }
+    .proj-gallery { margin-top: 24px; position: relative; }
+    .gallery-slider {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .gallery-slider::-webkit-scrollbar { display: none; }
+    .gallery-slide {
+      flex: 0 0 auto;
+      width: 280px;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 8px;
+      scroll-snap-align: start;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gallery-slide:hover { transform: scale(1.02); }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--ink);
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .slider-btn:hover { background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .slider-prev { left: -18px; }
+    .slider-next { right: -18px; }
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .slider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink-faint);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slider-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+    .gallery-label {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      margin-bottom: 12px;
+    }
+    .video-slide {
+      flex: 0 0 auto;
+      width: 320px;
+    }
+    .video-slide video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      background: #000;
+    }
+    .video-slide-title {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-top: 8px;
+      text-align: center;
+    }
+    .proj-video-section { margin-top: 24px; }
+    .video-main video { width: 100%; max-width: 480px; border-radius: 10px; background: #000; }
+    .video-main-title { font-size: 0.9rem; color: var(--ink); margin-top: 10px; font-weight: 500; }
+    .video-tabs { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+    .video-tab {
+      padding: 8px 16px; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px;
+      background: var(--card); cursor: pointer; font-size: 0.85rem; color: var(--ink-soft);
+      transition: all .2s;
+    }
+    .video-tab:hover { border-color: var(--accent); }
+    .video-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .video-panels { margin-top: 16px; }
+    .video-panel { display: none; }
+    .video-panel.active { display: block; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; }
+    .video-item { cursor: pointer; }
+    .video-item video {
+      width: 100%; aspect-ratio: 9/16; border-radius: 4px; background: #000;
+      object-fit: cover;
+    }
+    .video-item span { display: block; font-size: 0.65rem; color: var(--ink-soft); margin-top: 3px; line-height: 1.2; }
+    .video-item:hover video { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    /* 全宽项目卡片 */
+    .proj-card-full {
+      background: var(--surface);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--ink-faint);
+      margin-bottom: 32px;
+    }
+    .proj-full-header {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+    }
+    .proj-full-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .proj-full-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 32px 32px;
+      background: linear-gradient(to top, rgba(26,23,20,0.95), rgba(26,23,20,0.7) 60%, transparent);
+      color: #fff;
+    }
+    .proj-full-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .proj-full-role {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 12px;
+    }
+    .proj-full-desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      max-width: 600px;
+    }
+    .proj-full-metrics {
+      margin-top: 16px;
+    }
+    .proj-full-metrics .proj-metric {
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 12px 20px;
+    }
+    .proj-full-metrics .proj-metric-num {
+      color: #fff;
+    }
+    .proj-full-metrics .proj-metric-label {
+      color: rgba(255,255,255,0.7);
+    }
+    .proj-full-body {
+      padding: 24px 32px 32px;
+    }
+    .proj-full-gallery {
+      margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── VOLUNTEER ── */
+    .projects {
+      background: #fefcf8;
+    }
+    .volunteer {
+      background: #fffdf8;
+    }
+    .vol-card {
+      background: var(--warm);
+      border-radius: 16px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
+    .vol-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      margin-bottom: 16px;
+    }
+    .vol-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .vol-loc { font-size: 0.82rem; color: var(--ink-faint); margin-bottom: 20px; }
+    .vol-points { display: flex; flex-direction: column; gap: 12px; }
+    .vol-point { font-size: 0.88rem; color: var(--ink-soft); padding-left: 18px; position: relative; }
+    .vol-point::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+    .vol-medal { font-size: 5rem; }
+
+    /* ── SKILLS ── */
+    .skills {
+      background: #fefcf8;
+    }
+    .skills-bubbles-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+    }
+    .skills-bubbles {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px 0;
+    }
+    .skills-bubbles-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .skill-bubble {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      border-radius: 100px;
+      border: 1.5px solid var(--ink-faint);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+    .skill-bubble:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(212,120,90,0.12);
+    }
+    .skill-bubble.active {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(212,120,90,0.25);
+    }
+    .skill-bubble.active .bubble-icon,
+    .skill-bubble.active .bubble-label { color: #fff; }
+    .skill-bubble.active .bubble-arrow { border-top-color: #fff; }
+    .bubble-icon { font-size: 1.3rem; line-height: 1; }
+    .bubble-label {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .bubble-arrow {
+      font-size: 0.7rem;
+      transition: transform 0.3s;
+      opacity: 0.5;
+    }
+    .skill-bubble.active .bubble-arrow {
+      transform: rotate(180deg);
+      opacity: 1;
+    }
+    .bubble-detail {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      font-size: 0.85rem;
+      line-height: 2;
+      color: var(--ink-soft);
+    }
+    .skill-bubble.active .bubble-detail {
+      display: block;
+    }
+    .skill-bubble.active {
+      flex-wrap: wrap;
+      border-radius: 20px;
+      padding: 16px 28px;
+    }
+      white-space: nowrap;
+    }
+    .bubble-arrow {
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--ink-faint);
+      transition: transform 0.25s, border-top-color 0.25s;
+      margin-left: 2px;
+    }
+    .skill-bubble.active .bubble-arrow { transform: rotate(180deg); }
+
+    /* 气泡详情面板 */
+    .skill-detail-panel {
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s, padding 0.3s;
+      opacity: 0;
+      padding: 0 0;
+    }
+    .skill-detail-panel.open {
+      max-height: 200px;
+      opacity: 1;
+      padding: 16px 0 0;
+    }
+    .skill-detail-inner {
+      background: var(--surface);
+      border: 1px solid var(--ink-faint);
+      border-radius: 16px;
+      padding: 24px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+    .skill-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+    .skill-detail-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .skills-bubbles-row { gap: 10px; }
+      .skill-bubble { padding: 12px 18px; }
+      .bubble-label { font-size: 0.82rem; }
+      .skill-detail-inner { padding: 16px 20px; gap: 8px 16px; }
+    }
+
+    /* ── VIDEO SHOWCASE ── */
+    /* ── PHOTO WORKS ── */
+    .photo-section {
+      background: #fefcf8;
+      padding: var(--section-pad) 0;
+    }
+    .photo-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+      justify-content: center;
+    }
+    .photo-tab {
+      padding: 10px 28px;
+      border: 1.5px solid var(--ink-faint);
+      border-radius: 100px;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.04em;
+    }
+    .photo-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .photo-tab:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .photo-panel {
+      display: none;
+    }
+    .photo-panel.active {
+      display: block;
+    }
+    .photo-slider-wrap {
+      position: relative;
+    }
+    .photo-slider {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .photo-slider::-webkit-scrollbar { display: none; }
+    .photo-item {
+      flex: 0 0 200px;
+      scroll-snap-align: start;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      background: var(--warm);
+    }
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .photo-item:hover img {
+      transform: scale(1.05);
+    }
+    .photo-slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--ink);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .photo-slider-btn:hover {
+      background: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .photo-slider-btn.prev { left: -8px; }
+    .photo-slider-btn.next { right: -8px; }
+    .photo-design-slider {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .photo-design-slider::-webkit-scrollbar { display: none; }
+    .photo-design-item {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--warm);
+    }
+    .photo-design-item img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .photo-design-item:hover img {
+      transform: scale(1.03);
+    }
+    .photo-design-item .design-label {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: 12px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+    }
+    .photo-design-item:hover .design-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .photo-design-link {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--warm);
+      display: block;
+      text-decoration: none;
+      transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .photo-design-link:hover {
+      transform: scale(1.03);
+    }
+    .photo-design-link .design-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 12px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+    .design-label-tag {
+      display: inline-block;
+      background: var(--accent);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── 个人运营账号 ── */
+    .personal-accounts {
+      background: #fefcf8;
+    }
+    .account-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      .account-cards { grid-template-columns: 1fr; }
+    }
+    .account-card {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .account-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .account-header {
+      position: relative;
+      height: 72px;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px 18px;
+      flex-shrink: 0;
+    }
+    .account-header-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
+    }
+    .account-platform {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    .account-body {
+      padding: 12px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .account-screenshot {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .account-body-scroll {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,0.12) transparent;
+      max-height: 320px;
+    }
+    .account-body-scroll::-webkit-scrollbar { width: 4px; }
+    .account-body-scroll::-webkit-scrollbar-track { background: transparent; }
+    .account-body-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
+    .account-screenshot-scroll {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+    }
+    .account-content {
+      margin-top: 48px;
+    }
+    .account-content-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .xhs-scroll-hint {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--ink-soft);
+      opacity: 0.6;
+    }
+    .xhs-scroll-panel {
+      max-height: 520px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 8px 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,0.15) transparent;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.02);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      align-content: start;
+    }
+    .xhs-scroll-panel::-webkit-scrollbar { width: 5px; }
+    .xhs-scroll-panel::-webkit-scrollbar-track { background: transparent; }
+    .xhs-scroll-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+    .xhs-note {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .xhs-note:hover { transform: scale(1.005); }
+    @media (max-width: 768px) {
+      .xhs-scroll-panel { max-height: 400px; grid-template-columns: 1fr; }
+    }
+    .account-other {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .account-other { grid-template-columns: 1fr; }
+    }
+    .account-other-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+    .account-other-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .account-other-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .account-other-pdf-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      background: var(--warm);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .account-other-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .account-other-label {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+    }
+    .account-other-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .account-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 48px;
+      padding: 32px 40px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .account-stat-card {
+      text-align: center;
+    }
+    .account-stat-num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      font-family: 'Playfair Display', serif;
+    }
+    .account-stat-label {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .video-section {
+      background: #fffdf8;
+    }
+
+    /* 分类 Tab */
+    .video-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .video-tab {
+      padding: 10px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--ink-faint);
+      background: transparent;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.22s;
+      letter-spacing: 0.04em;
+    }
+    .video-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .video-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* 分类面板 */
+    .video-panel { display: none; }
+    .video-panel.active { display: block; }
+
+    /* 视频网格 */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .video-grid.single { grid-template-columns: 1fr; max-width: 720px; }
+
+    .video-card {
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--ink-faint);
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s;
+    }
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(26,23,20,0.1);
+    }
+    .video-card video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #111;
+    }
+    .video-card-body {
+      padding: 20px 24px 24px;
+    }
+    .video-card-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .video-card-meta {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+    }
+
+    /* 外链视频卡片 */
+    .link-card {
+      display: block;
+      text-decoration: none;
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--ink-faint);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s, border-color 0.25s;
+    }
+    .link-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(26,23,20,0.1);
+      border-color: var(--accent);
+    }
+    .link-card-thumb {
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #1a1714 0%, #3a3530 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .link-card-platform {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 4px;
+      font-size: 0.68rem;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+    .link-card-play {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.4rem;
+      box-shadow: 0 8px 24px rgba(212,120,90,0.4);
+    }
+    .link-card:hover .link-card-play {
+      transform: scale(1.1);
+    }
+    .link-card-body { padding: 20px 24px 24px; }
+    .link-card-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .link-card-meta {
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .link-card-meta::before {
+      content: '↗';
+      color: var(--accent);
+    }
+
+    /* ── EVALUATION ── */
+    .eval {
+      background: #fffdf8;
+    }
+    .eval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .eval-card {
+      padding: 40px;
+      border-radius: 16px;
+      background: var(--warm);
+    }
+    .eval-emoji { font-size: 2rem; margin-bottom: 20px; }
+    .eval-text {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      line-height: 2;
+      font-style: italic;
+    }
+    .eval-single {
+      padding: 40px;
+      border-radius: 16px;
+      background: var(--warm);
+    }
+    .eval-single .eval-text p {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      line-height: 2;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .eval-single .eval-text p:last-child { margin-bottom: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 80px clamp(32px, 8vw, 120px);
+      text-align: center;
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 32px; }
+    .footer-link {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--accent); }
+    .footer-copy { font-size: 0.95rem; color: rgba(255,255,255,0.85); font-weight: 600; letter-spacing: 0.05em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade {
+      to { opacity: 1; }
+    }
+    @keyframes scan {
+      to { left: 100%; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .about-grid, .proj-grid, .eval-grid { grid-template-columns: 1fr; gap: 40px; }
+      .edu-card, .exp-item { grid-template-columns: 1fr; gap: 12px; }
+      .vol-card { grid-template-columns: 1fr; }
+      .skills-grid { justify-content: center; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .stat-card { padding: 20px; }
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 30px;
+      font-size: 2.5rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      user-select: none;
+    }
+    .lightbox-nav:hover { opacity: 1; }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <span class="nav-name">陈芊羽</span>
+  <ul class="nav-links">
+    <li><a href="#about">关于</a></li>
+    <li><a href="#education">教育</a></li>
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#video">视频</a></li>
+    <li><a href="#photo">照片</a></li>
+    <li><a href="#accounts">运营账号</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">New Media &amp; Digital Marketing</p>
+      <h1 class="hero-name">陈芊羽<span class="no">の</span>Portfolio</h1>
+    </div>
+    <div class="hero-photo-side">
+      <img src="封面.JPG" alt="陈芊羽" class="hero-photo">
+      <p class="hero-photo-caption">来认识一个更鲜活立体的我吧</p>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    向下滚动
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+  <div class="container">
+    <p class="section-label reveal">About</p>
+    <div class="divider reveal"></div>
+    <div class="about-grid">
+      <div class="about-photos reveal">
+        <div class="ap-row ap-row-top">
+          <div class="ap-img-wrap">
+            <img src="我的照片/我的职业照.jpg" alt="职业照">
+          </div>
+        </div>
+        <div class="ap-row ap-row-bot">
+          <div class="ap-img-wrap bot">
+            <img src="我的照片/生活中的我.jpg" alt="生活中的我">
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <h2 class="section-title">关于我</h2>
+        <p>
+          我是陈芊羽，香港教育大学新媒体与社交媒体硕士在读，本科毕业于重庆对外经贸学院网络与新媒体专业。
+        </p>
+        <p>
+          拥有丰富的自媒体运营与短视频创作经验，熟悉小红书、抖音等主流平台的内容逻辑与推流机制。累计发布笔记 800+ 篇，打造过阅读量 60 万的爆款内容，具备独立完成从选题策划到内容产出的全流程能力。
+        </p>
+        <p>
+          同时具备扎实的线下活动执行能力，曾统筹协调百人级活动，擅长跨部门沟通与资源整合。做事细致有责任心，对互联网内容运营和活动策划有浓厚兴趣。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section class="education" id="education">
+  <div class="container">
+    <p class="section-label reveal">Education</p>
+    <h2 class="section-title reveal">教育背景</h2>
+    <p class="section-sub reveal">扎实的学术基础，系统的新媒体与传播学训练。</p>
+    <div class="edu-list">
+      <div class="edu-card reveal">
+        <div class="edu-period">2025.09 — 2026.06<br>（预计毕业）</div>
+        <div>
+          <div class="edu-name">香港教育大学</div>
+          <div class="edu-degree">硕士 · 新媒体与社交媒体</div>
+          <div class="edu-desc">
+            研究方向聚焦社交媒体传播与用户行为分析，系统学习内容策划与数字营销，具备扎实的传播学理论基础与新媒体研究方法。
+          </div>
+          <div class="edu-gpa">🎓 研究型硕士项目</div>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-period">2020.09 — 2024.06</div>
+        <div>
+          <div class="edu-name">重庆对外经贸学院</div>
+          <div class="edu-degree">本科 · 网络与新媒体</div>
+          <div class="edu-desc">
+            GPA 3.68/4.0（均分 88），专业排名前 10%。核心课程涵盖：新媒体运营、短视频创作、数字营销、摄影摄像、广告策划等。
+          </div>
+          <div class="edu-gpa">📊 GPA 3.68 / 4.0（前 10%）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section class="experience" id="experience">
+  <div class="container">
+    <p class="section-label reveal">Experience</p>
+    <h2 class="section-title reveal">实习经历</h2>
+    <p class="section-sub reveal">从 KOL 运营到视频剪辑，积累多维度的行业实战经验。</p>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">深圳高鼎信息服务有限公司</div>
+          <div class="exp-role">达人运营助理</div>
+          <div class="exp-period">2025.06 — 2025.09</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">协助品牌抖音达人合作项目，负责合同流程跟进、素材对接与数据统计，推动百万级 GMV 目标达成，线上成交量环比增长 200%</div>
+          <div class="exp-point">管理达人合作物料清单（样品、合同、素材文件），记录收发状态与库存数量，定期盘点确保账实相符</div>
+          <div class="exp-point">配合物流供应商完成样品寄送与回收，跟进运输进度并及时反馈异常，累计处理 50+ 批次物料流转</div>
+          <div>
+            <span class="exp-badge">达人运营</span>
+            <span class="exp-badge">数据统计</span>
+            <span class="exp-badge">供应链</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">成都含元文化传播有限公司</div>
+          <div class="exp-role">媒体运营（KOL 账号代运营）</div>
+          <div class="exp-period">2024.10 — 2025.04</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">全权负责香港 YF LIFE 品牌小红书账号日常运营，独立完成选题策划、文案撰写、图片拍摄、视频剪辑全流程，累计发布笔记 800+ 篇</div>
+          <div class="exp-point">单篇笔记最高阅读量达 60 万，点赞 1000+，多篇内容获平台推荐，熟悉小红书用户喜好与推流机制</div>
+          <div class="exp-point">通过评论区互动、话题策划引导用户导流，高效处理用户咨询 400+ 条，账号总互动量显著提升</div>
+          <div>
+            <span class="exp-badge">小红书运营</span>
+            <span class="exp-badge">爆款打造</span>
+            <span class="exp-badge">品牌代运营</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">成都传媒集团（"谈资"&"红星新闻"）</div>
+          <div class="exp-role">视频剪辑师</div>
+          <div class="exp-period">2024.01 — 2024.03</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">专注于小红书和抖音账号"谈资"与"红星新闻"的视频二次创作与内容运营，基于社会热点独立完成选题策划、素材搜集、拍摄及剪辑全流程</div>
+          <div class="exp-point">通过精准话题编写与发布策略，成功打造点赞量过万的爆款视频超过 10 条，熟悉平台推流逻辑与用户偏好</div>
+          <div class="exp-point">独立完成 2 条商业广告视频的剪辑，具备将品牌需求与热点内容结合的能力</div>
+          <div>
+            <span class="exp-badge">视频剪辑</span>
+            <span class="exp-badge">热点运营</span>
+            <span class="exp-badge">商业视频</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">四川断离舍文化传播有限公司</div>
+          <div class="exp-role">媒体运营</div>
+          <div class="exp-period">2023.05 — 2024.10</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">从 0 到 1 搭建并运营 3 个品牌小红书账号，负责内容策划、图文/视频产出、粉丝维护，总粉丝数突破 10 万，获赞藏近百万</div>
+          <div class="exp-point">结合热点产出网感文案，策划互动话题与打卡活动，多篇笔记成为小爆款，账号平均互动率高于行业水平</div>
+          <div class="exp-point">深度参与 2 场大型线下活动的线上预热与现场执行，通过内容引导实现活动曝光超 50 万次</div>
+          <div>
+            <span class="exp-badge">账号孵化</span>
+            <span class="exp-badge">粉丝运营</span>
+            <span class="exp-badge">活动预热</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div class="exp-company">上海触瑞雪文化传播有限公司</div>
+          <div class="exp-role">执行导演助理</div>
+          <div class="exp-period">2023.10 — 2023.11</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">协助主管制定外景拍摄时间表，跟踪每日进度，负责排期更新与跨组通报，保障项目按计划推进</div>
+          <div class="exp-point">组织 20+ 次跨部门协调会议（道具组、PD组），记录纪要并跟进待办，识别物料、场地等风险并提前协调资源</div>
+          <div class="exp-point">负责现场秩序维护、临时演员调度，处理突发问题，积累线下活动执行与临场应变经验</div>
+          <div>
+            <span class="exp-badge">现场执行</span>
+            <span class="exp-badge">项目管理</span>
+            <span class="exp-badge">跨部门协调</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-card reveal">
+        <div class="exp-left">
+          <div class="exp-company">影视融媒体学院摄影部</div>
+          <div class="exp-role">副部长</div>
+          <div class="exp-period">2020.10 — 2021.04</div>
+        </div>
+        <div class="exp-points">
+          <div class="exp-point">负责 15+ 场校级重大活动的影像记录与直播支持，产出素材多次被学院官方平台采用</div>
+          <div class="exp-point">开拓外部资源，成功为部门活动争取商业赞助，与 3 家企业达成合作，累计赞助金额 8000+ 元</div>
+          <div>
+            <span class="exp-badge">摄影摄像</span>
+            <span class="exp-badge">商业赞助</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="projects" id="projects">
+  <div class="container">
+    <p class="section-label reveal">Projects</p>
+    <h2 class="section-title reveal">项目实践</h2>
+    <p class="section-sub reveal">代表性项目经历，展示全链路运营与活动统筹能力。</p>
+
+    <!-- 纤悦瑜伽 - 全宽展示 -->
+    <div class="proj-card proj-card-full reveal">
+      <div class="proj-full-header">
+        <img src="纤悦瑜伽全媒体营销活动/小红书宣传海报.jpg" alt="纤悦瑜伽全媒体营销活动" class="proj-full-img">
+        <div class="proj-full-overlay">
+          <div class="proj-full-title">纤悦瑜伽「瑜你相约」全媒体营销活动</div>
+          <div class="proj-full-role">项目负责人 · 2023.09 — 2023.11</div>
+          <div class="proj-full-desc">
+            统筹抖音、小红书、微信全渠道内容营销，策划互动话题与打卡活动，主导产出图文 20+ 篇、短视频 80+ 条，执行 2 场主题直播。活动后整理数据与用户反馈，输出复盘报告。
+          </div>
+          <div class="proj-metrics proj-full-metrics">
+            <div class="proj-metric">
+              <div class="proj-metric-num">74</div>
+              <div class="proj-metric-label">新增订单</div>
+            </div>
+            <div class="proj-metric">
+              <div class="proj-metric-num">3.87万</div>
+              <div class="proj-metric-label">销售额</div>
+            </div>
+            <div class="proj-metric">
+              <div class="proj-metric-num">67</div>
+              <div class="proj-metric-label">新会员转化</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-full-body">
+        <!-- 宣传视频 -->
+        <div class="proj-video-section">
+          <a href="https://www.bilibili.com/video/BV1W5dfBVEyZ/" target="_blank" class="link-card">
+            <div class="link-card-thumb">
+              <img src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/微电影广告/《柔的力量》-封面.jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+              <span class="link-card-platform">B站</span>
+              <div class="link-card-play">▶</div>
+            </div>
+            <div class="link-card-body">
+              <div class="link-card-title">《柔的力量》微电影</div>
+              <div class="link-card-meta">全媒体营销活动 · 纤悦瑜伽</div>
+            </div>
+          </a>
+        </div>
+        <!-- 短视频Tab -->
+        <div class="video-tabs">
+          <button class="video-tab" data-tab="ip">IP账号 (13)</button>
+          <button class="video-tab" data-tab="official">官方账号 (7)</button>
+          <button class="video-tab" data-tab="live">直播账号 (3)</button>
+        </div>
+        <div class="video-panels">
+          <div class="video-panel" id="panel-ip">
+            <div class="video-grid">
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.10.10loopy瑜伽动作模仿秀.mp4"></video><span>loopy瑜伽动作模仿秀</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.10.29手势舞.mp4"></video><span>手势舞</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.10.3叫人释怀.mp4"></video><span>叫人释怀</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.20瑜伽老师的迷惑日常.mp4"></video><span>瑜伽老师的迷惑日常</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.21 VS系列.mp4"></video><span>VS系列</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.22情绪卡点.mp4"></video><span>情绪卡点</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.23想象中你练空中瑜伽的样子.mp4"></video><span>想象中你练空中瑜伽的样子</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.24空中瑜伽老师的休息方式.mp4"></video><span>空中瑜伽老师的休息方式</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.25多巴胺穿搭.mp4"></video><span>多巴胺穿搭</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.26雨伞变装.MP4"></video><span>雨伞变装</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.28手势舞.mp4"></video><span>手势舞</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽ip账号/23.9.29空中瑜伽老师的两幅面孔.MP4"></video><span>空中瑜伽老师的两幅面孔</span></div>
+            </div>
+          </div>
+          <div class="video-panel" id="panel-official">
+            <div class="video-grid">
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.10.7空中瑜伽3.mp4"></video><span>空中瑜伽3</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.19空中瑜伽1.mp4"></video><span>空中瑜伽1</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.21教学视频1.mp4"></video><span>教学视频1</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.22空中瑜伽2.mp4"></video><span>空中瑜伽2</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.25瑜伽动作莲花盘示范.mp4"></video><span>瑜伽动作莲花盘示范</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.26瑜伽动作青蛙趴示范.mp4"></video><span>瑜伽动作青蛙趴示范</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽官方账号/23.9.27教学视频3.mp4"></video><span>教学视频3</span></div>
+            </div>
+          </div>
+          <div class="video-panel" id="panel-live">
+            <div class="video-grid">
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽直播账号/团购套餐.mp4"></video><span>团购套餐</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽直播账号/直播预告1.mp4"></video><span>直播预告1</span></div>
+              <div class="video-item"><video preload="metadata"><source src="纤悦瑜伽全媒体营销活动/宣传视频/视频作品/短视频/纤悦瑜伽直播账号/直播预告2.mp4"></video><span>直播预告2</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- 活动图片 -->
+        <div class="proj-gallery proj-full-gallery">
+          <div class="gallery-label">📸 活动图片</div>
+          <div class="gallery-slider yoga-gallery" id="yoga-gallery-slider">
+            <img src="纤悦瑜伽全媒体营销活动/小红书图文稿1.JPG" alt="小红书图文稿1" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/小红书图文稿2.JPG" alt="小红书图文稿2" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/小红书图文稿3.JPG" alt="小红书图文稿3" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/小红书宣传海报.jpg" alt="小红书宣传海报" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/课堂随拍.JPG" alt="课堂随拍" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/课堂随拍1.JPG" alt="课堂随拍1" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/课堂随拍2.JPG" alt="课堂随拍2" class="gallery-slide" loading="lazy">
+            <img src="纤悦瑜伽全媒体营销活动/课堂随拍3.JPG" alt="课堂随拍3" class="gallery-slide" loading="lazy">
+          </div>
+          <button class="slider-btn slider-prev" id="yoga-prev">❮</button>
+          <button class="slider-btn slider-next" id="yoga-next">❯</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-Pop活动 - 全宽展示 -->
+    <div class="proj-card proj-card-full reveal">
+      <div class="proj-full-header">
+        <img src="粉丝生咖活动图/10.jpg" alt="K-Pop粉丝周年庆活动" class="proj-full-img">
+        <div class="proj-full-overlay">
+          <div class="proj-full-title">K-Pop 粉丝线下周年庆活动</div>
+          <div class="proj-full-role">组织者 · 2022.08</div>
+          <div class="proj-full-desc">
+            独立策划并落地 50+ 人参与的粉丝线下活动，负责氛围营造：设计签名墙打卡、随机舞蹈、歌曲合唱等互动环节。独立制定活动筹备时间线，提前两周完成所有准备。
+          </div>
+          <div class="proj-metrics proj-full-metrics">
+            <div class="proj-metric">
+              <div class="proj-metric-num">1000+</div>
+              <div class="proj-metric-label">参与人数</div>
+            </div>
+            <div class="proj-metric">
+              <div class="proj-metric-num">2周</div>
+              <div class="proj-metric-label">提前完成</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-full-body">
+        <!-- 活动图片展示 -->
+        <div class="proj-gallery proj-full-gallery">
+          <div class="gallery-slider" id="gallery-slider">
+            <img src="粉丝生咖活动图/1.JPG" alt="活动照片1" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/2.JPG" alt="活动照片2" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/3.JPG" alt="活动照片3" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/4.JPG" alt="活动照片4" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/5.JPG" alt="活动照片5" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/6.JPG" alt="活动照片6" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/7.JPG" alt="活动照片7" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/8.JPG" alt="活动照片8" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/9.jpg" alt="活动照片9" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/10.jpg" alt="活动照片10" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/11.PNG" alt="活动照片11" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/12.jpg" alt="活动照片12" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/13.jpg" alt="活动照片13" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/14.jpg" alt="活动照片14" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/15.jpg" alt="活动照片15" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2918.JPG" alt="活动照片16" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2927.JPG" alt="活动照片17" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2963.JPG" alt="活动照片18" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2965.JPG" alt="活动照片19" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2966.JPG" alt="活动照片20" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_2968.JPG" alt="活动照片21" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_5010.jpg" alt="活动照片22" class="gallery-slide" loading="lazy">
+            <img src="粉丝生咖活动图/IMG_5011.jpg" alt="活动照片23" class="gallery-slide" loading="lazy">
+          </div>
+          <button class="slider-btn slider-prev" id="slider-prev">❮</button>
+          <button class="slider-btn slider-next" id="slider-next">❯</button>
+          <div class="slider-dots" id="slider-dots"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 其他项目卡片 - 两列布局 -->
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-header" style="background:url('社团活动简报/1.jpg') center/cover no-repeat; position:relative;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5),transparent);border-radius:16px 16px 0 0;"></div>
+          <span class="proj-emoji">🏫</span>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">韩语社运营管理</div>
+          <div class="proj-role">社长 · 2021.10 — 2022.04</div>
+          <div class="proj-desc">
+            管理 30 人核心团队，策划并执行 10 场校级文化活动（韩语打卡、K-Pop 分享会等），平均参与人数超百人。负责物资采购、场地对接、供应商协调，建立成员反馈机制。
+          </div>
+          <div class="proj-metrics">
+            <div class="proj-metric">
+              <div class="proj-metric-num">10+</div>
+              <div class="proj-metric-label">校级活动</div>
+            </div>
+            <div class="proj-metric">
+              <div class="proj-metric-num">100+</div>
+              <div class="proj-metric-label">场均参与</div>
+            </div>
+          </div>
+          <div class="proj-more-toggle" onclick="toggleProjMore(this)">📄 社团活动简报 <span class="toggle-arrow">▾</span></div>
+          <div class="proj-more-content" style="display:none;">
+            <div class="proj-pdf-list">
+              <a href='社团活动简报/211125"韩语乌托邦，快乐大家享"韩语社团活动简报.pdf' target="_blank" class="proj-pdf-item">
+                <span>📋</span> 211125「韩语乌托邦，快乐大家享」活动简报
+              </a>
+              <a href='社团活动简报/20211111"韩语魅力，共同寻觅"2021级韩语社活动简报 2.pdf' target="_blank" class="proj-pdf-item">
+                <span>📋</span> 20211111「韩语魅力，共同寻觅」活动简报
+              </a>
+              <a href='社团活动简报/220331"青春韩语，展现自我"韩语社团活动简报.pdf' target="_blank" class="proj-pdf-item">
+                <span>📋</span> 220331「青春韩语，展现自我」活动简报
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── VOLUNTEER ── -->
+<section class="volunteer">
+  <div class="container">
+    <p class="section-label reveal">Volunteer</p>
+    <h2 class="section-title reveal">志愿者经历</h2>
+    <div class="vol-card reveal">
+      <div>
+        <div class="vol-title">演唱会志愿者 | 焦迈奇·成都站 / 周深·成都站</div>
+        <div class="vol-loc">2022–2023 · 成都</div>
+        <div class="vol-points">
+          <div class="vol-point">负责演唱会现场票务核验及入场引导，单场服务观众 2000+ 人次，保障入场秩序</div>
+          <div class="vol-point">协助现场工作人员进行人流疏导与分区管理，有效应对入场/散场高峰期拥堵问题</div>
+          <div class="vol-point">在高密度人群中保持良好服务态度，快速响应观众问询，累计处理突发情况 10+ 起</div>
+          <div class="vol-point">参与后台物料整理与分发，熟悉大型活动执行流程，培养了高压多任务处理能力</div>
+        </div>
+      </div>
+      <div class="vol-medal">🎤</div>
+    </div>
+    <div class="vol-card reveal">
+      <div>
+        <div class="vol-badge">🏆 优秀志愿者</div>
+        <div class="vol-title">中国第十四届电子信息博览会</div>
+        <div class="vol-loc">2026.04 · 深圳</div>
+        <div class="vol-points">
+          <div class="vol-point">负责展会期间参展商与观众的需求对接，累计完成超 200 组用户访谈，收集产品使用场景与核心诉求</div>
+          <div class="vol-point">协助完成展会现场活动执行与流程管控，协调跨部门资源保障活动落地，锻炼高强度场景下的沟通协作与应急处理能力</div>
+          <div class="vol-point">凭借高效的执行表现与服务意识，获评"优秀志愿者"荣誉，积累大型科技展会的用户服务与场景运营经验</div>
+        </div>
+      </div>
+      <div class="vol-medal">🏅</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEO SHOWCASE ── -->
+<section class="video-section" id="video">
+  <div class="container">
+    <p class="section-label reveal">Video Works</p>
+    <h2 class="section-title reveal">视频作品</h2>
+    <p class="section-sub reveal">点击分类查看不同类型视频作品，涵盖剧情拍摄、舞台混剪与采访报道。</p>
+
+    <!-- 分类 Tab -->
+    <div class="video-tabs reveal">
+      <button class="video-tab active" data-category="mv">MV 剧情向</button>
+      <button class="video-tab" data-category="stage">舞台混剪</button>
+      <button class="video-tab" data-category="interview">采访报道类</button>
+      <button class="video-tab" data-category="douyin">抖音作品</button>
+    </div>
+
+    <!-- MV 剧情向 -->
+    <div class="video-panel active" id="panel-mv">
+      <div class="video-grid reveal">
+        <a href="https://www.bilibili.com/video/BV1q3411g7UR/" target="_blank" class="link-card">
+          <div class="link-card-thumb">
+            <img src="长视频作品/MV剧情向/《偷偷喜欢你》.jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+            <span class="link-card-platform">B站</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">《偷偷喜欢你》</div>
+            <div class="link-card-meta">MV 剧情向 · 情感短片</div>
+          </div>
+        </a>
+        <div class="video-card">
+          <video controls preload="metadata" playsinline>
+            <source src="长视频作品/MV剧情向/《熔炉》翻拍视频 - 001 - 《熔炉》翻拍视频.mp4" type="video/mp4">
+          </video>
+          <div class="video-card-body">
+            <div class="video-card-title">《熔炉》翻拍</div>
+            <div class="video-card-meta">MV 剧情向 · 电影翻拍</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video controls preload="metadata" playsinline>
+            <source src="长视频作品/MV剧情向/《走马》mv翻拍 - 001 - 《走马》mv翻拍.mp4" type="video/mp4">
+          </video>
+          <div class="video-card-body">
+            <div class="video-card-title">《走马》MV 翻拍</div>
+            <div class="video-card-meta">MV 剧情向 · 音乐短片</div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video controls preload="metadata" playsinline>
+            <source src="长视频作品/MV剧情向/【头号玩家】真的很喜欢用钱砸出来的东西 - 001 - 头号玩家.mp4" type="video/mp4">
+          </video>
+          <div class="video-card-body">
+            <div class="video-card-title">《头号玩家》</div>
+            <div class="video-card-meta">MV 剧情向 · 影视混剪</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 舞台混剪 -->
+    <div class="video-panel" id="panel-stage">
+      <div class="video-grid reveal">
+        <a href="https://www.bilibili.com/video/BV1T54y1r7k5/" target="_blank" class="link-card">
+          <div class="link-card-thumb">
+            <img src="长视频作品/舞台混剪/【SuperM-Tiger inside舞台混剪-10808】.jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+            <span class="link-card-platform">B站</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">SuperM《Tiger Inside》舞台混剪</div>
+            <div class="link-card-meta">舞台混剪 · K-Pop · 1080p</div>
+          </div>
+        </a>
+        <a href="https://www.bilibili.com/video/BV1TZ4y1G7Do/" target="_blank" class="link-card">
+          <div class="link-card-thumb">
+            <img src="长视频作品/舞台混剪/【Psycho】回归预热，多多期待以更成熟的面貌回归的完整体red velvet.jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+            <span class="link-card-platform">B站</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">Red Velvet《Psycho》回归预热</div>
+            <div class="link-card-meta">舞台混剪 · K-Pop</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 采访报道类 -->
+    <div class="video-panel" id="panel-interview">
+      <div class="video-grid reveal">
+        <a href="https://www.bilibili.com/video/BV1s34y1r7o9/" target="_blank" class="link-card">
+          <div class="link-card-thumb">
+            <img src="长视频作品/采访报道类/我的20岁.jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+            <span class="link-card-platform">B站</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">我的20岁采访视频</div>
+            <div class="link-card-meta">采访报道类 · 个人成长</div>
+          </div>
+        </a>
+        <a href="https://www.bilibili.com/video/BV1grdfBRExM/" target="_blank" class="link-card">
+          <div class="link-card-thumb">
+            <img src="长视频作品/采访报道类/以流行致敬传统：BTS光化门演出的文化密码与产业启示  .jpg" alt="封面" style="width:100%;height:100%;object-fit:cover;">
+            <span class="link-card-platform">B站</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">BTS光化门演出的文化密码与产业启示</div>
+            <div class="link-card-meta">采访报道类 · 文化分析</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 抖音作品 -->
+    <div class="video-panel" id="panel-douyin">
+      <div class="video-grid reveal">
+        <a href="https://v.douyin.com/ItiK0AmEDAg/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-thumb">
+            <span class="link-card-platform">抖音</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">郎朗这辈子最慌的一次演出</div>
+            <div class="link-card-meta">点击跳转观看 · 谈资</div>
+          </div>
+        </a>
+        <a href="https://v.douyin.com/WR9ZsUWibuI/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-thumb">
+            <span class="link-card-platform">抖音</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">当外国人听到全球发音</div>
+            <div class="link-card-meta">点击跳转观看 · 谈资</div>
+          </div>
+        </a>
+        <a href="https://v.douyin.com/QP0mbVSeWwg/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-thumb">
+            <span class="link-card-platform">抖音</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">王嘉尔生日派对带巴斯光年摆件</div>
+            <div class="link-card-meta">点击跳转观看 · 谈资</div>
+          </div>
+        </a>
+        <a href="https://v.douyin.com/KDZz7Ft7TvA/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-thumb">
+            <span class="link-card-platform">抖音</span>
+            <div class="link-card-play">▶</div>
+          </div>
+          <div class="link-card-body">
+            <div class="link-card-title">EXO的下春山</div>
+            <div class="link-card-meta">点击跳转观看 · 谈资</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTO WORKS ── -->
+<section class="photo-section" id="photo">
+  <div class="container">
+    <p class="section-label reveal">Photography &amp; Design</p>
+    <div class="divider reveal"></div>
+    <h2 class="section-title reveal">照片作品</h2>
+    <p class="section-sub reveal">人像摄影 · 平面排版设计</p>
+    <div class="photo-tabs reveal">
+      <span class="photo-tab active" data-photo-tab="portrait">人像拍摄</span>
+      <span class="photo-tab" data-photo-tab="design">排版设计</span>
+    </div>
+    <div class="photo-panel active" id="photo-portrait">
+      <div class="photo-slider-wrap">
+        <button class="photo-slider-btn prev" onclick="this.parentElement.querySelector('.photo-slider').scrollBy({left:-420,behavior:'smooth'})">‹</button>
+        <div class="photo-slider">
+          <div class="photo-item"><img src="照片作品/人像拍摄/1.JPG" alt="人像作品1"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/2.JPG" alt="人像作品2"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/3.JPG" alt="人像作品3"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/4.JPG" alt="人像作品4"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/5.JPG" alt="人像作品5"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/6.JPG" alt="人像作品6"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/7.JPG" alt="人像作品7"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/8.JPG" alt="人像作品8"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/9.JPG" alt="人像作品9"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/10.JPG" alt="人像作品10"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/11.JPG" alt="人像作品11"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/12.JPG" alt="人像作品12"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/13.JPG" alt="人像作品13"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/14.JPG" alt="人像作品14"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/15.JPG" alt="人像作品15"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/16.JPG" alt="人像作品16"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/17.JPG" alt="人像作品17"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/18.JPG" alt="人像作品18"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/19.JPG" alt="人像作品19"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/20.JPG" alt="人像作品20"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/21.JPG" alt="人像作品21"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/22.JPG" alt="人像作品22"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/23.JPG" alt="人像作品23"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/24.JPG" alt="人像作品24"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/25.JPG" alt="人像作品25"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/26.JPG" alt="人像作品26"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/27.JPG" alt="人像作品27"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/28.JPG" alt="人像作品28"></div>
+          <div class="photo-item"><img src="照片作品/人像拍摄/29.JPG" alt="人像作品29"></div>
+        </div>
+        <button class="photo-slider-btn next" onclick="this.parentElement.querySelector('.photo-slider').scrollBy({left:420,behavior:'smooth'})">›</button>
+      </div>
+    </div>
+    <div class="photo-panel" id="photo-design">
+      <div class="photo-slider-wrap">
+        <button class="photo-slider-btn prev" onclick="this.parentElement.querySelector('.photo-design-slider').scrollBy({left:-300,behavior:'smooth'})">‹</button>
+        <div class="photo-design-slider">
+          <div class="photo-design-item"><img src="照片作品/排版设计/718.jpg" alt="718"><div class="design-label">718</div></div>
+          <div class="photo-design-item"><img src="照片作品/排版设计/9.jpg" alt="9"><div class="design-label">9</div></div>
+          <div class="photo-design-item"><img src="照片作品/排版设计/NCT子页.jpg" alt="NCT子页"><div class="design-label">NCT子页</div></div>
+          <div class="photo-design-item"><img src="照片作品/排版设计/xiaodejun快递柜1.jpg" alt="快递柜"><div class="design-label">xiaodejun快递柜</div></div>
+          <div class="photo-design-item"><img src="照片作品/排版设计/内存条1.jpg" alt="内存条"><div class="design-label">内存条</div></div>
+          <div class="photo-design-item"><img src="照片作品/排版设计/金道英生贺.jpg" alt="金道英生贺"><div class="design-label">金道英生贺</div></div>
+          <a href="https://www.bilibili.com/video/BV1kN41127vA/" target="_blank" class="photo-design-link">
+            <img src="照片作品/排版设计/红毛网页.jpg" alt="红毛网页封面" style="width:100%;height:100%;object-fit:cover;">
+            <div class="design-label">
+              <span class="design-label-tag">🎬 视频</span>红毛网页
+            </div>
+          </a>
+        </div>
+        <button class="photo-slider-btn next" onclick="this.parentElement.querySelector('.photo-design-slider').scrollBy({left:300,behavior:'smooth'})">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PERSONAL ACCOUNTS ── -->
+<section class="personal-accounts" id="accounts">
+  <div class="container">
+    <p class="section-label reveal">Personal Accounts</p>
+    <h2 class="section-title reveal">个人运营账号</h2>
+    <p class="section-sub reveal">独立运营多平台自媒体账号，持续产出优质内容。</p>
+
+    <!-- 账号概览卡片 -->
+    <div class="account-cards reveal">
+      <div class="account-card">
+        <div class="account-header" style="background:url('运营作品/个人运营账号截图/小红书账号版头.jpg') center/cover no-repeat;">
+          <div class="account-header-overlay"></div>
+          <span class="account-platform">📕 小红书</span>
+        </div>
+        <div class="account-body account-body-scroll">
+          <img src="运营作品/个人运营账号截图/小红书账号截图.PNG" alt="小红书账号" class="account-screenshot account-screenshot-scroll" loading="lazy">
+        </div>
+      </div>
+      <div class="account-card">
+        <div class="account-header" style="background:linear-gradient(135deg,#fb7299,#00a1d6);">
+          <div class="account-header-overlay"></div>
+          <span class="account-platform">📺 Bilibili</span>
+        </div>
+        <div class="account-body">
+          <img src="运营作品/个人运营账号截图/bilibili账号截图.jpg" alt="Bilibili账号" class="account-screenshot" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据亮点 -->
+    <div class="account-stats reveal">
+      <div class="account-stat-card">
+        <div class="account-stat-num">800+</div>
+        <div class="account-stat-label">累计发布笔记</div>
+      </div>
+      <div class="account-stat-card">
+        <div class="account-stat-num">60万</div>
+        <div class="account-stat-label">单篇最高阅读</div>
+      </div>
+    </div>
+
+    <!-- 小红书笔记展示 -->
+    <div class="account-content reveal">
+      <h3 class="account-content-title">📝 小红书笔记精选 <span class="xhs-scroll-hint">↕ 上下滑动浏览</span></h3>
+      <div class="xhs-scroll-panel" id="xhs-scroll-panel">
+        <img src="运营作品/运营内容集/小红书笔记1.JPG" alt="小红书笔记1" class="xhs-note" loading="lazy">
+        <img src="运营作品/运营内容集/小红书笔记2.JPG" alt="小红书笔记2" class="xhs-note" loading="lazy">
+        <img src="运营作品/运营内容集/小红书笔记3.JPG" alt="小红书笔记3" class="xhs-note" loading="lazy">
+        <img src="运营作品/运营内容集/小红书笔记4.JPG" alt="小红书笔记4" class="xhs-note" loading="lazy">
+        <img src="运营作品/运营内容集/小红书笔记5.JPG" alt="小红书笔记5" class="xhs-note" loading="lazy">
+      </div>
+      </div>
+    </div>
+
+    <!-- 其他运营内容 -->
+    <div class="account-other reveal">
+      <div class="account-other-card" onclick="openAccountLightbox('运营作品/运营内容集/新网青年.jpg')">
+        <img src="运营作品/运营内容集/新网青年.jpg" alt="新网青年" class="account-other-img" loading="lazy">
+        <div class="account-other-info">
+          <span class="account-other-label">📰 校园媒体</span>
+          <span class="account-other-name">新网青年</span>
+        </div>
+      </div>
+      <div class="account-other-card" onclick="openAccountLightbox('运营作品/运营内容集/公众号.jpg')">
+        <img src="运营作品/运营内容集/公众号.jpg" alt="公众号推文" class="account-other-img" loading="lazy">
+        <div class="account-other-info">
+          <span class="account-other-label">📢 微信公众号</span>
+          <span class="account-other-name">公众号推文作品</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EVALUATION ── -->
+<section class="eval">
+  <div class="container">
+    <p class="section-label reveal">Self Evaluation</p>
+    <h2 class="section-title reveal">自我评价</h2>
+    <div class="eval-single">
+      <div class="eval-text">
+        <p>🎯 做事细致、有责任心，能耐心处理琐碎事务（如物料盘点、数据记录、用户反馈收集）。有新媒体运营、视频剪辑、活动执行、项目协调等多方面实践经历，具备较强的学习能力和适应力。</p>
+        <p>📱 熟悉小红书、抖音等平台的内容逻辑，累计发布笔记 800+ 篇，打造过阅读 60 万的爆款内容，能独立完成从选题到发布的全流程。</p>
+        <p>🤝 性格踏实、好沟通，适应团队协作，能主动推进任务。对互联网产品、内容运营、活动策划有浓厚兴趣，愿意深入业务并持续学习。</p>
+        <p>⚡ 擅长将网络热梗与品牌需求结合，产出高互动率内容。熟悉平台推流逻辑与用户偏好，具备从零到十万粉丝账号孵化经验。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section class="skills" id="skills">
+  <div class="container">
+    <p class="section-label reveal">Skills</p>
+    <h2 class="section-title reveal">技能与能力</h2>
+    <p class="section-sub reveal">专业技能全覆盖，覆盖内容创作到活动执行全流程。</p>
+    <div class="skills-bubbles">
+      <!-- 第一行 4 个 -->
+      <div class="skills-bubbles-row">
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">🎬</span>
+          <span class="bubble-label">视频创作</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>短视频拍摄、剪辑（剪映 / PR）</div>
+            <div>选题策划、脚本撰写</div>
+            <div>热点捕捉与内容借势</div>
+            <div>爆款内容打造（10+ 条点赞过万）</div>
+          </div>
+        </div>
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">📱</span>
+          <span class="bubble-label">新媒体运营</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>小红书 / 抖音账号运营</div>
+            <div>内容策划与文案撰写</div>
+            <div>用户互动、评论区导流</div>
+            <div>数据复盘、平台推流机制</div>
+          </div>
+        </div>
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">🎪</span>
+          <span class="bubble-label">活动执行</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>线下活动策划与现场统筹</div>
+            <div>跨部门协调与资源整合</div>
+            <div>物料管理与进度跟踪</div>
+            <div>百人级活动组织经验</div>
+          </div>
+        </div>
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">📊</span>
+          <span class="bubble-label">数据分析</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>Excel 数据记录与处理</div>
+            <div>周 / 月复盘报告撰写</div>
+            <div>用户行为与内容效果分析</div>
+            <div>内容策略迭代优化</div>
+          </div>
+        </div>
+      </div>
+      <!-- 第二行 3 个 -->
+      <div class="skills-bubbles-row">
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">✏️</span>
+          <span class="bubble-label">内容策划</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>品牌内容策略制定</div>
+            <div>多平台内容矩阵规划</div>
+            <div>活动主题与互动玩法设计</div>
+            <div>KOL / 达人合作对接</div>
+          </div>
+        </div>
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">🛠️</span>
+          <span class="bubble-label">基础工具</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>PPT 报告撰写与演示</div>
+            <div>Photoshop / Illustrator 基础</div>
+            <div>Premiere Pro / 剪映专业剪辑</div>
+            <div>英语四级（可处理英文邮件）</div>
+          </div>
+        </div>
+        <div class="skill-bubble reveal" onclick="toggleBubble(this)">
+          <span class="bubble-icon">🤖</span>
+          <span class="bubble-label">AI 工具运用</span>
+          <span class="bubble-arrow">▾</span>
+          <div class="bubble-detail">
+            <div>熟练使用 ChatGPT / Claude 等大语言模型</div>
+            <div>AI 辅助内容创作与文案生成</div>
+            <div>AI 图像生成与视觉设计提效</div>
+            <div>利用 AI 工具优化工作流，提升产出效率</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer id="contact">
+  <div class="footer-name">陈芊羽</div>
+  <div class="footer-links">
+    <a href="tel:13518101978" class="footer-link">📞 135 1810 1978</a>
+    <a href="mailto:750155830@qq.com" class="footer-link">✉️ 750155830@qq.com</a>
+    <span class="footer-link">📍 深圳 / 香港</span>
+    <span class="footer-link">⏱️ 可随时到岗</span>
+  </div>
+  <div class="footer-copy">© 2026 陈芊羽のPortfolio · New Media Portfolio</div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => entry.target.classList.add('in'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 100;
+    observer.observe(el);
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Video tabs switching - 长视频作品板块
+  const videoTabs = document.querySelectorAll('.video-tab[data-category]');
+  videoTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.category;
+      document.querySelectorAll('.video-tab[data-category]').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      ['panel-mv', 'panel-stage', 'panel-interview', 'panel-douyin'].forEach(pid => {
+        const p = document.getElementById(pid);
+        if (p) p.classList.remove('active');
+      });
+      document.getElementById('panel-' + cat).classList.add('active');
+    });
+  });
+
+  // 技能气泡展开/收起
+  function toggleBubble(el) {
+    const wasActive = el.classList.contains('active');
+    // 收起所有
+    document.querySelectorAll('.skill-bubble').forEach(b => b.classList.remove('active'));
+    // 如果之前没展开，则展开
+    if (!wasActive) el.classList.add('active');
+  }
+
+  // 项目卡片展开/收起（PDF列表等）
+  function toggleProjMore(el) {
+    const content = el.nextElementSibling;
+    const isOpen = content.style.display !== 'none';
+    content.style.display = isOpen ? 'none' : 'block';
+    el.classList.toggle('open', !isOpen);
+  }
+
+  // 图片滑动
+  const slider = document.getElementById('gallery-slider');
+  const prevBtn = document.getElementById('slider-prev');
+  const nextBtn = document.getElementById('slider-next');
+  const dotsContainer = document.getElementById('slider-dots');
+  const slides = document.querySelectorAll('.gallery-slide');
+  
+  // 生成指示点
+  slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => {
+      slider.scrollTo({ left: i * 292, behavior: 'smooth' });
+    });
+    dotsContainer.appendChild(dot);
+  });
+  
+  const dots = document.querySelectorAll('.slider-dot');
+  
+  // 左右按钮
+  prevBtn.addEventListener('click', () => slider.scrollBy({ left: -300, behavior: 'smooth' }));
+  nextBtn.addEventListener('click', () => slider.scrollBy({ left: 300, behavior: 'smooth' }));
+  
+  // 更新指示点
+  slider.addEventListener('scroll', () => {
+    const index = Math.round(slider.scrollLeft / 292);
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  });
+
+  // 纤悦瑜伽图片滑动
+  const yogaSlider = document.getElementById('yoga-gallery-slider');
+  const yogaPrev = document.getElementById('yoga-prev');
+  const yogaNext = document.getElementById('yoga-next');
+  if (yogaSlider && yogaPrev && yogaNext) {
+    yogaPrev.addEventListener('click', () => yogaSlider.scrollBy({ left: -300, behavior: 'smooth' }));
+    yogaNext.addEventListener('click', () => yogaSlider.scrollBy({ left: 300, behavior: 'smooth' }));
+  }
+
+
+
+  // 纤悦瑜伽视频Tab切换（toggle效果）- 只处理有data-tab属性的Tab
+  document.querySelectorAll('.video-tab[data-tab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const panelId = 'panel-' + tab.dataset.tab;
+      const isAlreadyActive = tab.classList.contains('active');
+      
+      // 先收起纤悦瑜伽的所有Tab和Panel
+      document.querySelectorAll('.video-tab[data-tab]').forEach(t => t.classList.remove('active'));
+      
+      // 只收起纤悦瑜伽的Panel
+      ['panel-ip', 'panel-official', 'panel-live'].forEach(pid => {
+        const p = document.getElementById(pid);
+        if (p) p.classList.remove('active');
+      });
+      
+      // 如果之前没激活，则展开
+      if (!isAlreadyActive) {
+        tab.classList.add('active');
+        document.getElementById(panelId).classList.add('active');
+      }
+    });
+  });
+
+  // 照片作品Tab切换
+  document.querySelectorAll('.photo-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.photo-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.photo-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-photo-tab');
+      document.getElementById('photo-' + target).classList.add('active');
+    });
+  });
+
+  // 视频点击播放
+  document.querySelectorAll('.video-item video').forEach(v => {
+    v.addEventListener('click', () => {
+      if (v.paused) { v.play(); v.controls = true; }
+      else { v.pause(); }
+    });
+  });
+</script>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close">&times;</span>
+  <span class="lightbox-nav lightbox-prev">&#10094;</span>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="放大图片">
+  <span class="lightbox-nav lightbox-next">&#10095;</span>
+</div>
+
+<script>
+  // 运营内容lightbox快捷函数
+  function openAccountLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Lightbox功能
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const galleryImgs = document.querySelectorAll('.gallery-slide, .xhs-note');
+  const closeBtn = document.querySelector('.lightbox-close');
+  const prevBtnLightbox = document.querySelector('.lightbox-prev');
+  const nextBtnLightbox = document.querySelector('.lightbox-next');
+  let currentIndex = 0;
+
+  // 打开lightbox
+  galleryImgs.forEach((img, index) => {
+    img.addEventListener('click', () => {
+      currentIndex = index;
+      lightboxImg.src = img.src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // 关闭lightbox
+  closeBtn.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // 上一张
+  prevBtnLightbox.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
+    lightboxImg.src = galleryImgs[currentIndex].src;
+  });
+
+  // 下一张
+  nextBtnLightbox.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % galleryImgs.length;
+    lightboxImg.src = galleryImgs[currentIndex].src;
+  });
+
+  // 键盘导航
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    if (e.key === 'ArrowLeft') prevBtnLightbox.click();
+    if (e.key === 'ArrowRight') nextBtnLightbox.click();
+  });
+
+  // 视频点击播放
+  document.querySelectorAll('.video-item video').forEach(v => {
+    v.addEventListener('click', () => {
+      if (v.paused) { v.play(); v.controls = true; }
+      else { v.pause(); }
+    });
+  });
+</script>
+
+
+
