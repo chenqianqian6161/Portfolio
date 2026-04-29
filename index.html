@@ -16,17 +16,21 @@
     }
 
     :root {
-      --bg: #fefcf8;
+      /* 孟菲斯柔和配色 - Memphis Soft Palette */
+      --bg: #f8f6f2;
       --surface: #ffffff;
-      --ink: #1a1e38;
-      --ink-soft: #5a5e78;
-      --ink-faint: #b8bcd0;
-      --accent: #f07010;
-      --accent-dark: #d05800;
-      --warm: #fef8f0;
-      --warm-deep: #f8e8d0;
-      --sage: #4070c0;
-      --sage-light: #6888d0;
+      --ink: #2a3048;
+      --ink-soft: #5a6078;
+      --ink-faint: #b0b4c0;
+      --accent: #d4787a;           /* 柔和珊瑚粉 */
+      --accent-dark: #b86060;
+      --warm: #faf4ec;
+      --warm-deep: #f0e4d4;
+      --memphis-pink: #d4787a;      /* 珊瑚粉 */
+      --memphis-blue: #78a4b8;      /* 薄荷蓝 */
+      --memphis-purple: #a490b8;    /* 薰衣草 */
+      --memphis-yellow: #d4c878;    /* 柠檬黄 */
+      --memphis-mint: #88b8a4;      /* 薄荷绿 */
       --page-w: 1100px;
       --section-pad: clamp(64px, 8vw, 120px);
     }
@@ -58,7 +62,7 @@
       transition: background 0.3s, box-shadow 0.3s;
     }
     nav.scrolled {
-      background: rgba(250, 247, 244, 0.92);
+      background: rgba(248, 244, 240, 0.92);
       backdrop-filter: blur(16px);
       box-shadow: 0 1px 0 var(--ink-faint);
     }
@@ -93,13 +97,13 @@
       padding: 0 clamp(32px, 8vw, 120px);
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, #fdd8b0 0%, #f8b870 25%, #f0a070 40%, #c8a0d0 55%, #6898e0 75%, #2870f0 100%);
+      background: linear-gradient(135deg, #f0d4d0 0%, #e8c8c0 15%, #d4e4e8 35%, #c8dce8 50%, #d8d0e8 70%, #e8e0d0 100%);
     }
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.35);
       pointer-events: none;
     }
     .hero::after {
@@ -107,7 +111,7 @@
       position: absolute;
       left: 0; right: 0; bottom: 0;
       height: 120px;
-      background: linear-gradient(180deg, transparent, #d8e4f0);
+      background: linear-gradient(180deg, transparent, #f0e8e4);
       pointer-events: none;
     }
     .hero-inner {
@@ -280,7 +284,7 @@
 
     /* ── ABOUT ── */
     .about {
-      background: linear-gradient(180deg, #d8e4f0 0%, #eef2f8 30%, #fefcf8 100%);
+      background: linear-gradient(180deg, #f0e8e4 0%, #f4f0ec 30%, #f8f6f2 100%);
     }
     .education {
       background: #fefcf8;
@@ -349,10 +353,10 @@
       background: var(--warm);
       padding: 32px 28px;
     }
-    .stat-card:first-child { border-radius: 12px 0 0 0; }
-    .stat-card:nth-child(2) { border-radius: 0 12px 0 0; }
-    .stat-card:nth-child(3) { border-radius: 0 0 0 12px; }
-    .stat-card:last-child { border-radius: 0 0 12px 0; }
+    .stat-card:first-child { border-radius: 12px 0 0 0; background: #f4e8e8; }
+    .stat-card:nth-child(2) { border-radius: 0 12px 0 0; background: #e4f0f0; }
+    .stat-card:nth-child(3) { border-radius: 0 0 0 12px; background: #ece4f4; }
+    .stat-card:last-child { border-radius: 0 0 12px 0; background: #f4f0e4; }
     .stat-num {
       font-family: 'Playfair Display', serif;
       font-size: 2.8rem;
@@ -400,7 +404,7 @@
 
     /* ── EXPERIENCE ── */
     .experience {
-      background: #fffdf8;
+      background: #f4f0f4;
     }
     .exp-list { display: flex; flex-direction: column; gap: 0; }
     .exp-item {
@@ -481,8 +485,8 @@
       height: 100%;
       object-fit: cover;
     }
-    .proj-card:nth-child(1) .proj-header { background: linear-gradient(135deg, #d4785a 0%, #e8a88a 100%); }
-    .proj-card:nth-child(2) .proj-header { background: linear-gradient(135deg, #8a9e8b 0%, #c8d9c9 100%); }
+    .proj-card:nth-child(1) .proj-header { background: linear-gradient(135deg, #d4787a 0%, #e8a8a8 100%); }
+    .proj-card:nth-child(2) .proj-header { background: linear-gradient(135deg, #78a4b8 0%, #a8c8d8 100%); }
     .proj-emoji {
       font-size: 4rem;
       opacity: 0.9;
@@ -608,7 +612,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .slider-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+    .slider-dot.active { background: var(--memphis-pink); width: 18px; border-radius: 3px; }
     .gallery-label {
       font-size: 0.88rem;
       font-weight: 500;
@@ -722,13 +726,13 @@
 
     /* ── VOLUNTEER ── */
     .projects {
-      background: #fefcf8;
+      background: #f8f6f2;
     }
     .volunteer {
-      background: #fffdf8;
+      background: #f0f4f4;
     }
     .vol-card {
-      background: var(--warm);
+      background: linear-gradient(135deg, var(--warm) 0%, #f8f0f0 100%);
       border-radius: 16px;
       padding: 48px;
       display: grid;
@@ -761,7 +765,7 @@
 
     /* ── SKILLS ── */
     .skills {
-      background: #fefcf8;
+      background: #f4f0ec;
     }
     .skills-bubbles-wrap {
       display: flex;
@@ -796,15 +800,15 @@
       user-select: none;
     }
     .skill-bubble:hover {
-      border-color: var(--accent);
+      border-color: var(--memphis-blue);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(212,120,90,0.12);
+      box-shadow: 0 10px 30px rgba(120,164,184,0.15);
     }
     .skill-bubble.active {
-      border-color: var(--accent);
-      background: var(--accent);
+      border-color: var(--memphis-blue);
+      background: var(--memphis-blue);
       color: #fff;
-      box-shadow: 0 10px 30px rgba(212,120,90,0.25);
+      box-shadow: 0 10px 30px rgba(120,164,184,0.25);
     }
     .skill-bubble.active .bubble-icon,
     .skill-bubble.active .bubble-label { color: #fff; }
@@ -900,7 +904,7 @@
     /* ── VIDEO SHOWCASE ── */
     /* ── PHOTO WORKS ── */
     .photo-section {
-      background: #fefcf8;
+      background: #f8f4f0;
       padding: var(--section-pad) 0;
     }
     .photo-tabs {
@@ -920,13 +924,13 @@
       letter-spacing: 0.04em;
     }
     .photo-tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--memphis-mint);
+      border-color: var(--memphis-mint);
       color: #fff;
     }
     .photo-tab:hover:not(.active) {
-      border-color: var(--accent);
-      color: var(--accent);
+      border-color: var(--memphis-mint);
+      color: var(--memphis-mint);
     }
     .photo-panel {
       display: none;
@@ -1071,7 +1075,7 @@
 
     /* ── 个人运营账号 ── */
     .personal-accounts {
-      background: #fefcf8;
+      background: #f0f4f0;
     }
     .account-cards {
       display: grid;
@@ -1279,7 +1283,7 @@
     }
 
     .video-section {
-      background: #fffdf8;
+      background: #f4f0f8;
     }
 
     /* 分类 Tab */
@@ -1301,10 +1305,10 @@
       transition: all 0.22s;
       letter-spacing: 0.04em;
     }
-    .video-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .video-tab:hover { border-color: var(--memphis-purple); color: var(--memphis-purple); }
     .video-tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--memphis-purple);
+      border-color: var(--memphis-purple);
       color: #fff;
     }
 
@@ -1394,13 +1398,13 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: var(--accent);
+      background: var(--memphis-blue);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff;
       font-size: 1.4rem;
-      box-shadow: 0 8px 24px rgba(212,120,90,0.4);
+      box-shadow: 0 8px 24px rgba(120,164,184,0.4);
     }
     .link-card:hover .link-card-play {
       transform: scale(1.1);
@@ -1429,7 +1433,7 @@
 
     /* ── EVALUATION ── */
     .eval {
-      background: #fffdf8;
+      background: #f4f0f0;
     }
     .eval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
     .eval-card {
@@ -1462,7 +1466,7 @@
     footer {
       padding: 80px clamp(32px, 8vw, 120px);
       text-align: center;
-      background: var(--ink);
+      background: linear-gradient(135deg, #2a3048 0%, #3a4060 100%);
       color: rgba(255,255,255,0.5);
     }
     .footer-name {
