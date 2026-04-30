@@ -1554,6 +1554,39 @@
     .lightbox-prev { left: 20px; }
     .lightbox-next { right: 20px; }
   </style>
+
+    /* 横向翻页按钮 */
+    .page-btn {
+      position: fixed;
+      bottom: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--ink-faint);
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .page-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+    #page-prev { left: 24px; }
+    #page-next { right: 24px; }
+    .page-counter {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      color: var(--ink-soft);
+      z-index: 1000;
+    }
+
 </head>
 <body>
 
@@ -1574,7 +1607,7 @@
 </nav>
 
 <!-- ── HERO ── -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-inner">
     <div class="hero-text">
       <p class="hero-eyebrow">New Media &amp; Digital Marketing</p>
@@ -1988,7 +2021,7 @@
 </section>
 
 <!-- ── VOLUNTEER ── -->
-<section class="volunteer">
+<section class="volunteer" id="volunteer">
   <div class="container">
     <p class="section-label reveal">Volunteer</p>
     <h2 class="section-title reveal">志愿者经历</h2>
@@ -2682,5 +2715,48 @@
   });
 </script>
 
+</body>
+<!-- 翻页按钮 -->
+<button class="page-btn" id="page-prev" title="上一页">&#8592;</button>
+<span class="page-counter" id="page-counter">1 / 11</span>
+<button class="page-btn" id="page-next" title="下一页">&#8594;</button>
 
+<script>
+(function() {
+  var sections = ['hero', 'about', 'education', 'experience', 'projects', 'volunteer', 'video', 'photo', 'accounts', 'skills', 'contact'];
+  var total = sections.length;
+  var current = 0;
 
+  function updateState() {
+    var prevBtn = document.getElementById('page-prev');
+    var nextBtn = document.getElementById('page-next');
+    var counter = document.getElementById('page-counter');
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === total - 1;
+    if (counter) counter.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    current = index;
+    var el = document.getElementById(sections[current]);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateState();
+  }
+
+  document.getElementById('page-prev').addEventListener('click', function() { goTo(current - 1); });
+  document.getElementById('page-next').addEventListener('click', function() { goTo(current + 1); });
+
+  window.addEventListener('scroll', function() {
+    var pos = window.scrollY + window.innerHeight * 0.4;
+    for (var i = 0; i < sections.length; i++) {
+      var el = document.getElementById(sections[i]);
+      if (el && el.offsetTop <= pos) current = i;
+    }
+    updateState();
+  });
+
+  updateState();
+})();
+</script>
+</html>
