@@ -106,6 +106,15 @@
       background: rgba(255,255,255,0.35);
       pointer-events: none;
     }
+    /* 闪粉粒子层 */
+    .sparkle-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 2;
+    }
     .hero::after {
       content: '';
       position: absolute;
@@ -178,6 +187,103 @@
       animation: rise 0.9s 0.5s cubic-bezier(.22,1,.36,1) forwards;
     }
     .hero-name .no { color: var(--accent); font-size: 0.85em; margin: 0 0.05em; }
+    .hero-patch-wrap {
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      transform: translateY(-30px);
+    }
+    .hero-pin {
+      position: absolute;
+      height: 1.1em;
+      width: auto;
+      display: block;
+      transform: rotate(25deg);
+      transform-origin: bottom center;
+      bottom: -0.08em;
+      left: -0.5em;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      z-index: 10;
+    }
+    .hero-name-img {
+      display: block;
+      height: 5em;
+      width: auto;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes pinDropWrap {
+      0% { opacity: 0; transform: translateY(calc(-50vh - 100px)) rotate(20deg); }
+      70% { opacity: 1; transform: translateY(10px) rotate(-8deg); }
+      85% { transform: translateY(-8px) rotate(3deg); }
+      100% { opacity: 1; transform: translateY(0) rotate(25deg); }
+    }
+    .hero-pin.animate {
+      animation: pinDropWrap 1.5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-grass {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-grass .grass-blade {
+      position: absolute;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to top, #cce892 0%, #cce892 60%, rgba(204,232,146,0.3) 100%);
+      border-radius: 50% 50% 0 0;
+      transform-origin: bottom center;
+      filter: blur(0.5px);
+      opacity: 0.9;
+    }
+    .hero-grass .grass-blade.tall {
+      background: linear-gradient(to top, #b8d97a 0%, #cce892 50%, rgba(204,232,146,0.2) 100%);
+      filter: blur(1px);
+      opacity: 0.85;
+    }
+    .hero-grass .grass-blade.short {
+      background: linear-gradient(to top, #cce892 0%, #d4e9a0 70%, rgba(212,233,160,0.2) 100%);
+      filter: blur(0.3px);
+      opacity: 0.95;
+    }
+    .hero-grass .grass-layer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+    }
+    .hero-grass .grass-layer.back {
+      height: 140px;
+      filter: blur(3px);
+      opacity: 0.5;
+    }
+    .hero-grass .grass-layer.mid {
+      height: 110px;
+      filter: blur(1.5px);
+      opacity: 0.75;
+    }
+    .hero-grass .grass-layer.front {
+      height: 80px;
+      filter: blur(0.5px);
+      opacity: 1;
+    }
+    .hero-grass::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -10%;
+      right: -10%;
+      height: 60px;
+      background: radial-gradient(ellipse at center, #cce892 0%, rgba(204,232,146,0.6) 40%, transparent 70%);
+      filter: blur(12px);
+      opacity: 0.8;
+    }
     .hero-tagline {
       font-size: clamp(1rem, 2vw, 1.25rem);
       color: var(--ink-soft);
@@ -970,6 +1076,40 @@
     .photo-item:hover img {
       transform: scale(1.05);
     }
+
+    /* auto-scroll animation */
+    .photo-slider.photo-slider-auto {
+      scroll-animation: photoScroll 20s linear infinite;
+    }
+    @keyframes photoScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .photo-slider-wrap:hover .photo-pause-indicator {
+      opacity: 1;
+    }
+    .photo-pause-indicator {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* paused state: show last frame */
+    .photo-slider.paused { animation-play-state: paused; }
+    .photo-slider.paused .photo-item img { transform: scale(1); }
+
     .photo-slider-btn {
       position: absolute;
       top: 50%;
@@ -1194,7 +1334,14 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-    .xhs-note:hover { transform: scale(1.005); }
+    .xhs-note:hover { transform: scale(1.02); }
+    /* 所有图片悬停放大 */
+    img {
+      transition: transform 0.3s ease;
+    }
+    img:hover {
+      transform: scale(1.08);
+    }
     @media (max-width: 768px) {
       .xhs-scroll-panel { max-height: 400px; grid-template-columns: 1fr; }
     }
@@ -1462,6 +1609,58 @@
     }
     .eval-single .eval-text p:last-child { margin-bottom: 0; }
 
+    /* ── SCRIPTS ── */
+    .scripts-section { background: var(--bg); padding: 80px 0; }
+    .scripts-section .section-desc {
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+    .scripts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .script-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 32px 28px;
+      border: 1px solid var(--ink-faint);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .script-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .script-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .script-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .script-desc {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .script-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      background: var(--warm);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
     /* ── FOOTER ── */
     footer {
       padding: 80px clamp(32px, 8vw, 120px);
@@ -1553,46 +1752,69 @@
     .lightbox-nav:hover { opacity: 1; }
     .lightbox-prev { left: 20px; }
     .lightbox-next { right: 20px; }
-  </style>
 
-    /* 横向翻页按钮 */
-    .page-btn {
+    /* 🎵 Music Player */
+    .music-btn {
       position: fixed;
-      bottom: 24px;
-      width: 48px;
-      height: 48px;
+      bottom: 32px;
+      right: 28px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      background: var(--surface);
-      border: 1px solid var(--ink-faint);
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 1000;
+      background: var(--warm);
+      border: 2px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      z-index: 9001;
+      box-shadow: 0 4px 20px rgba(212,120,122,0.25);
+      transition: transform 0.25s cubic-bezier(.22,1,.36,1), box-shadow 0.25s;
+      font-size: 0;
+      color: var(--accent);
+      user-select: none;
     }
-    .page-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .page-btn:disabled { opacity: 0.3; cursor: default; }
-    #page-prev { left: 24px; }
-    #page-next { right: 24px; }
-    .page-counter {
-      position: fixed;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 14px;
-      color: var(--ink-soft);
-      z-index: 1000;
+    .music-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(212,120,122,0.35);
     }
+    .music-btn.playing {
+      animation: musicPulse 2s ease-in-out infinite;
+    }
+    @keyframes musicPulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(212,120,122,0.25); }
+      50% { box-shadow: 0 4px 32px rgba(212,120,122,0.55), 0 0 0 6px rgba(212,120,122,0.1); }
+    }
+    .music-btn svg { pointer-events: none; }
+
+  </style>
 
 </head>
 <body>
+  <!-- 🎵 Autoplay Start Overlay -->
+  <div id="start-overlay" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:url('hero-bg.jpg') center/cover no-repeat;cursor:pointer;flex-direction:column;gap:16px;">
+    <div style="position:absolute;inset:0;background:rgba(255,248,240,0.55);pointer-events:none;"></div>
+    <img src="flower.png" style="position:absolute;left:20px;bottom:20px;width:140px;height:auto;z-index:2;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));" alt="">
+    <div style="position:relative;z-index:1;font-size:28px;animation:pulse 2s ease-in-out infinite;">🎵</div>
+    <div style="position:relative;z-index:1;font-family:var(--font);color:var(--accent);font-size:15px;letter-spacing:1px;">let's fall in dream</div>
+    <div style="position:relative;z-index:1;font-family:var(--font);color:#999;font-size:12px;">Chen Qianyi · Portfolio</div>
+  </div>
+  <script>
+    document.getElementById('start-overlay').addEventListener('click', function(){
+      var a = document.getElementById('bg-music');
+      if(a){ a.play().catch(function(){}); }
+      setMusicPlaying(true);
+      this.style.opacity = '0';
+      setTimeout(function(){ this.style.display='none'; }.bind(this), 400);
+      // 触发别针掉落动画
+      var pinEl = document.querySelector('.hero-pin');
+      if(pinEl){ pinEl.classList.add('animate'); }
+    });
+  </script>
 
 <!-- ── NAV ── -->
 <nav id="nav">
-  <span class="nav-name">陈芊羽</span>
+  <span class="nav-name"></span>
   <ul class="nav-links">
     <li><a href="#about">关于</a></li>
     <li><a href="#education">教育</a></li>
@@ -1601,6 +1823,7 @@
     <li><a href="#video">视频</a></li>
     <li><a href="#photo">照片</a></li>
     <li><a href="#accounts">运营账号</a></li>
+    <li><a href="#scripts">奇思妙想</a></li>
     <li><a href="#skills">技能</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
@@ -1608,16 +1831,18 @@
 
 <!-- ── HERO ── -->
 <section class="hero" id="hero">
+  <canvas class="sparkle-canvas" id="sparkleCanvas"></canvas>
   <div class="hero-inner">
     <div class="hero-text">
       <p class="hero-eyebrow">New Media &amp; Digital Marketing</p>
-      <h1 class="hero-name">陈芊羽<span class="no">の</span>Portfolio</h1>
+      <h1 class="hero-name"><span class="hero-patch-wrap"><img src="pin.png" alt="陈芊羽" class="hero-pin"><img src="portfolio-text.png" alt="Portfolio" class="hero-name-img"></span></h1>
     </div>
     <div class="hero-photo-side">
       <img src="封面.JPG" alt="陈芊羽" class="hero-photo">
       <p class="hero-photo-caption">来认识一个更鲜活立体的我吧</p>
     </div>
   </div>
+
   <div class="hero-scroll">
     <div class="scroll-line"></div>
     向下滚动
@@ -2362,6 +2587,32 @@
   </div>
 </section>
 
+<!-- ── MY SCRIPTS ── -->
+<section class="scripts-section" id="scripts">
+  <div class="container">
+    <p class="section-label reveal">My Scripts</p>
+    <h2 class="section-title reveal">我的奇思妙想系列</h2>
+    <p class="section-desc reveal">这里收录了我创作的剧本作品 ✨</p>
+    <div class="scripts-grid">
+      <!-- 在这里添加剧本卡片，模板：
+      <div class="script-card reveal">
+        <div class="script-icon">🎬</div>
+        <h3 class="script-title">剧本标题</h3>
+        <p class="script-desc">剧本简介...</p>
+        <span class="script-tag">类型标签</span>
+      </div>
+      -->
+      <div class="script-card reveal" onclick="window.open('剧本-家居定稿版分镜头脚本.pdf', '_blank')">
+        <div class="script-icon">🏠</div>
+        <h3 class="script-title">《🏠》</h3>
+        <p class="script-desc">一个关于家庭暴力、创伤与隐忍的短片分镜头脚本。通过白衬衫、去渍笔、全家福等物件隐喻，讲述母亲在暴力前后的日常与沉默。</p>
+        <span class="script-tag">短片分镜头脚本</span>
+        <span class="script-tag" style="margin-left:6px;background:var(--accent);color:#fff;">约2分钟</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── EVALUATION ── -->
 <section class="eval">
   <div class="container">
@@ -2474,6 +2725,18 @@
 
 
 <!-- ── FOOTER ── -->
+  <audio id="bg-music" src="Feel_My_Rhythm.mp3" preload="auto"></audio>
+
+  <!-- Music Button -->
+  <button class="music-btn" id="musicBtn" title="播放音乐">
+    <svg id="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+      <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+    </svg>
+    <svg id="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <polygon points="5,3 19,12 5,21"/>
+    </svg>
+  </button>
+
 <footer id="contact">
   <div class="footer-name">陈芊羽</div>
   <div class="footer-links">
@@ -2649,6 +2912,17 @@
     document.body.style.overflow = 'hidden';
   }
 
+  // 剧本Lightbox
+  const scriptLightbox = document.getElementById('script-lightbox');
+  function openScriptLightbox() {
+    scriptLightbox.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeScriptLightbox() {
+    scriptLightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
   // Lightbox功能
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -2713,50 +2987,390 @@
       else { v.pause(); }
     });
   });
+
+  // Auto-scroll photo slider
+  function initPhotoAutoScroll(slider, wrap) {
+    const items = Array.from(slider.querySelectorAll('.photo-item, .photo-design-item'));
+    if (items.length === 0) return;
+    // Clone all items for seamless loop
+    items.forEach(function(item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute('data-clone', '1');
+      slider.appendChild(clone);
+    });
+    var pos = 0;
+    var paused = false;
+    var speed = 0.55;
+    var raf;
+
+    function step() {
+      if (!paused) {
+        var itemW = items[0].offsetWidth + 14;
+        pos += speed;
+        if (pos >= items.length * itemW) pos = 0;
+        slider.style.transform = 'translateX(-' + pos + 'px)';
+        slider.style.overflow = 'visible';
+        slider.style.width = 'max-content';
+      }
+      raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+    wrap.addEventListener('mouseenter', function() { paused = true; });
+    wrap.addEventListener('mouseleave', function() { paused = false; });
+  }
+
+  document.querySelectorAll('.photo-slider-wrap').forEach(function(wrap) {
+    var slider = wrap.querySelector('.photo-slider') || wrap.querySelector('.photo-design-slider');
+    if (slider) initPhotoAutoScroll(slider, wrap);
+  });
 </script>
 
-</body>
-<!-- 翻页按钮 -->
-<button class="page-btn" id="page-prev" title="上一页">&#8592;</button>
-<span class="page-counter" id="page-counter">1 / 11</span>
-<button class="page-btn" id="page-next" title="下一页">&#8594;</button>
+<!-- 剧本 Lightbox -->
+<div id="script-lightbox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;overflow-y:auto;padding:40px 20px;" onclick="if(event.target===this)closeScriptLightbox()">
+  <div style="max-width:800px;margin:0 auto;background:#fff;border-radius:16px;padding:20px;position:relative;">
+    <button onclick="closeScriptLightbox()" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#999;z-index:10;">&times;</button>
+    <iframe src="剧本-家居定稿版分镜头脚本.pdf" style="width:100%;height:75vh;border:none;border-radius:8px;" frameborder="0"></iframe>
+  </div>
+</div>
 
 <script>
-(function() {
-  var sections = ['hero', 'about', 'education', 'experience', 'projects', 'volunteer', 'video', 'photo', 'accounts', 'skills', 'contact'];
-  var total = sections.length;
-  var current = 0;
+// 🎵 Music toggle
+function setMusicPlaying(isPlaying){
+  var btn = document.getElementById('musicBtn');
+  var iconPlay = document.getElementById('icon-play');
+  var iconPause = document.getElementById('icon-pause');
+  if(!btn || !iconPlay || !iconPause) return;
+  if(isPlaying){
+    btn.classList.add('playing');
+    iconPlay.style.display = 'none';
+    iconPause.style.display = 'block';
+  }else{
+    btn.classList.remove('playing');
+    iconPlay.style.display = 'block';
+    iconPause.style.display = 'none';
+  }
+}
 
-  function updateState() {
-    var prevBtn = document.getElementById('page-prev');
-    var nextBtn = document.getElementById('page-next');
-    var counter = document.getElementById('page-counter');
-    if (prevBtn) prevBtn.disabled = current === 0;
-    if (nextBtn) nextBtn.disabled = current === total - 1;
-    if (counter) counter.textContent = (current + 1) + ' / ' + total;
+(function(){
+  var audio = document.getElementById('bg-music');
+  var btn = document.getElementById('musicBtn');
+  if(!audio || !btn) return;
+
+  var playlist = ['Feel_My_Rhythm.mp3', 'In My Dreams-Red Velvet.mp3'];
+  var trackIndex = 0;
+
+  function playTrack(i){
+    trackIndex = i;
+    audio.src = playlist[i];
+    audio.play().catch(function(){});
+    setMusicPlaying(true);
   }
 
-  function goTo(index) {
-    if (index < 0 || index >= total) return;
-    current = index;
-    var el = document.getElementById(sections[current]);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    updateState();
-  }
-
-  document.getElementById('page-prev').addEventListener('click', function() { goTo(current - 1); });
-  document.getElementById('page-next').addEventListener('click', function() { goTo(current + 1); });
-
-  window.addEventListener('scroll', function() {
-    var pos = window.scrollY + window.innerHeight * 0.4;
-    for (var i = 0; i < sections.length; i++) {
-      var el = document.getElementById(sections[i]);
-      if (el && el.offsetTop <= pos) current = i;
+  btn.addEventListener('click', function(){
+    if(audio.paused){
+      playTrack(trackIndex);
+    }else{
+      audio.pause();
+      setMusicPlaying(false);
     }
-    updateState();
   });
 
-  updateState();
+  audio.addEventListener('ended', function(){
+    var next = (trackIndex + 1) % playlist.length;
+    playTrack(next);
+  });
+
+  window.addEventListener('load', function(){
+    playTrack(0);
+  });
 })();
 </script>
+
+<!-- ═══════ 导游小人 ═══════ -->
+<style>
+  #tour-guide{position:fixed;z-index:8000;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transform:translateX(60px);transition:opacity .6s,right .5s,left .5s,transform .6s cubic-bezier(.23,1,.32,1);pointer-events:none;right:20px;top:50%;margin-top:-60px;filter:drop-shadow(0 0 18px rgba(212,120,122,.15))}
+  #tour-guide.visible{opacity:1;transform:translateX(0);pointer-events:auto}
+  #tour-guide.guide-left{right:auto;left:20px;transform:translateX(-60px)}
+  #tour-guide.guide-left.visible{transform:translateX(0)}
+  #tour-guide.guide-left .guide-bubble{border-radius:14px 14px 4px 14px}
+  #tour-guide.guide-left .guide-bubble::before{left:auto;right:16px}
+  .guide-avatar{width:144px;height:192px;border-radius:16px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(212,120,122,.25));cursor:pointer;animation:guideFloat 4s ease-in-out infinite;transition:transform .3s,filter .4s}
+  .guide-avatar:hover{animation-play-state:paused;transform:scale(1.08)!important;filter:drop-shadow(0 6px 20px rgba(212,120,122,.4))}
+  @keyframes guideFloat{
+    0%,100%{transform:translateY(0) rotate(-2deg)}
+    25%{transform:translateY(-14px) rotate(1.5deg)}
+    50%{transform:translateY(-6px) rotate(3deg)}
+    75%{transform:translateY(-18px) rotate(-1deg)}
+  }
+  /* 小人沿右侧做正弦曲线漂移 */
+  #tour-guide.visible{animation:guideDrift 8s ease-in-out infinite}
+  @keyframes guideDrift{
+    0%,100%{right:20px;top:calc(50% - 60px)}
+    20%{right:28px;top:calc(38% - 60px)}
+    40%{right:12px;top:calc(55% - 60px)}
+    60%{right:30px;top:calc(42% - 60px)}
+    80%{right:16px;top:calc(52% - 60px)}
+  }
+  .guide-bubble{position:relative;background:var(--surface);color:var(--ink);font-family:var(--font);font-size:13px;line-height:1.6;padding:10px 14px;border-radius:14px 14px 14px 4px;box-shadow:0 4px 20px rgba(0,0,0,.06),0 0 0 1.5px rgba(212,120,122,.12);max-width:180px;text-align:center;word-break:break-word;transition:opacity .3s,transform .3s}
+  .guide-bubble::before{content:'';position:absolute;bottom:-7px;left:16px;border-width:7px 7px 0;border-style:solid;border-color:var(--surface) transparent transparent}
+  .guide-bubble::after{content:'';position:absolute;bottom:-7px;left:16px;border-width:7px 7px 0;border-style:solid;border-color:rgba(212,120,122,.12) transparent transparent;z-index:-1}
+  .guide-bubble.hidden{opacity:0;pointer-events:none;transform:translateY(6px) scale(.95)}
+  .guide-nav{display:flex;gap:4px;margin-top:2px}
+  .guide-nav button{width:26px;height:26px;border:none;border-radius:50%;background:var(--accent);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;box-shadow:0 2px 6px rgba(212,120,122,.3)}
+  .guide-nav button:hover{background:var(--accent-dark);transform:scale(1.1)}
+  .guide-nav button:active{transform:scale(.95)}
+  .guide-dots{display:flex;gap:4px;margin-top:4px;align-items:flex-end}
+  .guide-dot{width:11px;height:6px;background:rgba(255,255,255,.6);border-radius:10px;position:relative;transition:all .4s cubic-bezier(.23,1,.32,1);opacity:.55;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .guide-dot::before{content:'';position:absolute;width:7px;height:7px;background:inherit;border-radius:50%;top:-4px;left:1px;box-shadow:none}
+  .guide-dot::after{content:'';position:absolute;width:5px;height:5px;background:inherit;border-radius:50%;top:-3px;left:6px;box-shadow:none}
+  .guide-dot.active{background:#FFF5CC;width:15px;height:8px;opacity:1;box-shadow:0 2px 8px rgba(255,230,150,.4);transform:translateY(-1px)}
+  .guide-dot.active::before{width:9px;height:9px;top:-5px;left:2px}
+  .guide-dot.active::after{width:7px;height:7px;top:-4px;left:8px}
+  @media(max-width:768px){
+    #tour-guide{right:8px;top:auto;bottom:80px;align-items:flex-end;margin-top:0;animation:none!important}
+    #tour-guide.visible{right:8px;top:auto;bottom:80px}
+    #tour-guide.guide-left{right:auto;left:8px;transform:none}
+    #tour-guide.guide-left.visible{left:8px}
+    #tour-guide.guide-left .guide-bubble::before{right:12px}
+    .guide-avatar{width:100px;height:134px;animation:guideFloat 3s ease-in-out infinite}
+    .guide-bubble{max-width:150px;font-size:12px;padding:8px 12px}
+  }
+</style>
+<div id="tour-guide">
+  <div class="guide-bubble" id="guide-bubble">欢迎来到芊羽的作品集～✨</div>
+  <img class="guide-avatar" id="guide-avatar" src="guide-sprites/guide-01.png" alt="小精灵导游" onclick="toggleGuideBubble()">
+  <div class="guide-dots" id="guide-dots"></div>
+</div>
+<script>
+(function(){
+  var sprites = [
+    'guide-sprites/guide-01.png','guide-sprites/guide-02.png',
+    'guide-sprites/guide-03.png','guide-sprites/guide-04.png',
+    'guide-sprites/guide-05.png','guide-sprites/guide-06.png',
+    'guide-sprites/guide-07.png','guide-sprites/guide-08.png'
+  ];
+  var sections = [
+    {id:'hero',      text:'这是芊羽的小世界入口～一起进去看看吧！🌟'},
+    {id:'about',     text:'这里是自我介绍～芊羽是个有趣的人哦！😄'},
+    {id:'education', text:'芊羽的求学之路，学习经历全在这里！📚'},
+    {id:'experience',text:'实习经历来啦～看看芊羽都做过什么！💼'},
+    {id:'projects',  text:'项目实践板块！芊羽的动手能力超强的！🛠️'},
+    {id:'volunteer', text:'志愿者经历～芊羽也是很有爱心的呢！💛'},
+    {id:'video',     text:'视频作品合集！芊羽的镜头语言很棒哦！🎬'},
+    {id:'photo',     text:'摄影和设计作品在这里～审美在线！📷'},
+    {id:'accounts',  text:'芊羽的自媒体账号们！各个平台都有身影～📱'},
+    {id:'scripts',   text:'奇思妙想系列！芊羽的创意剧本在这里！✏️'},
+    {id:'skills',    text:'技能评价～来看看芊羽都会什么吧！⭐'},
+    {id:'contact',   text:'联系方式在这里！想找芊羽就看这里～💌'}
+  ];
+  var current = 0;
+  var guide = document.getElementById('tour-guide');
+  var bubble = document.getElementById('guide-bubble');
+  var avatar = document.getElementById('guide-avatar');
+  var dotsWrap = document.getElementById('guide-dots');
+  var bubbleHidden = false;
+
+  // 生成圆点
+  sections.forEach(function(_, i){
+    var d = document.createElement('div');
+    d.className = 'guide-dot' + (i===0?' active':'');
+    dotsWrap.appendChild(d);
+  });
+
+  function switchSprite(idx){
+    var src = sprites[idx % sprites.length];
+    if(avatar.src.indexOf(src) === -1){
+      avatar.style.transition = 'transform .25s, opacity .25s';
+      avatar.style.opacity = '0';
+      avatar.style.transform = 'scale(.85) rotate(-5deg)';
+      setTimeout(function(){
+        avatar.src = src;
+        avatar.style.opacity = '1';
+        avatar.style.transform = 'scale(1) rotate(0deg)';
+      }, 250);
+    }
+  }
+
+  function updateState(){
+    bubble.textContent = sections[current].text;
+    switchSprite(current);
+    // 奇数索引放左边，偶数索引放右边
+    if(current % 2 === 1){ guide.classList.add('guide-left'); }
+    else { guide.classList.remove('guide-left'); }
+    var dots = dotsWrap.children;
+    for(var i=0;i<dots.length;i++) dots[i].className = 'guide-dot'+(i===current?' active':'');
+    var el = document.getElementById(sections[current].id);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  window.guidePrev = function(){
+    current = (current - 1 + sections.length) % sections.length;
+    updateState();
+  };
+  window.guideNext = function(){
+    current = (current + 1) % sections.length;
+    updateState();
+  };
+  window.toggleGuideBubble = function(){
+    bubbleHidden = !bubbleHidden;
+    bubble.classList.toggle('hidden', bubbleHidden);
+  };
+
+  // 页面滚动时自动同步
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(ticking) return;
+    ticking = true;
+    setTimeout(function(){
+      var pos = window.scrollY + window.innerHeight / 3;
+      var found = current;
+      for(var i=0;i<sections.length;i++){
+        var el = document.getElementById(sections[i].id);
+        if(el && el.offsetTop <= pos) found = i;
+      }
+      if(found !== current){
+        current = found;
+        switchSprite(current);
+        var dots = dotsWrap.children;
+        for(var j=0;j<dots.length;j++) dots[j].className = 'guide-dot'+(j===current?' active':'');
+        bubble.textContent = sections[current].text;
+      }
+      ticking = false;
+    }, 100);
+  });
+
+  // 显示导游（延迟1秒出场）
+  function showGuide(){
+    setTimeout(function(){
+      guide.classList.add('visible');
+      switchSprite(0);
+    }, 1000);
+  }
+  var overlay = document.getElementById('start-overlay');
+  if(overlay){
+    overlay.addEventListener('click', showGuide);
+  }
+  // 兜底：无论遮罩是否存在，2秒后都显示导游
+  setTimeout(showGuide, 2000);
+})();
+
+// ── 闪粉粒子效果 ──
+(function(){
+  var canvas = document.getElementById('sparkleCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H;
+  var particles = [];
+  var colors = ['#ffffff','#fff8e7','#ffe4e1','#e6e6fa','#f0f8ff','#ffd700'];
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function Particle(){
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.size = Math.random() * 2.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.alpha = Math.random() * 0.6 + 0.2;
+    this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+    this.twinkleDir = 1;
+  }
+  Particle.prototype.update = function(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0) this.x = W;
+    if(this.x > W) this.x = 0;
+    if(this.y < 0) this.y = H;
+    if(this.y > H) this.y = 0;
+    this.alpha += this.twinkleSpeed * this.twinkleDir;
+    if(this.alpha > 0.8 || this.alpha < 0.1) this.twinkleDir *= -1;
+  };
+  Particle.prototype.draw = function(){
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = this.size * 3;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    // 十字星芒
+    if(this.size > 1.5){
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(this.x - this.size * 2, this.y);
+      ctx.lineTo(this.x + this.size * 2, this.y);
+      ctx.moveTo(this.x, this.y - this.size * 2);
+      ctx.lineTo(this.x, this.y + this.size * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  for(var i = 0; i < 200; i++){
+    particles.push(new Particle());
+  }
+
+  function animate(){
+    ctx.clearRect(0, 0, W, H);
+    for(var i = 0; i < particles.length; i++){
+      particles[i].update();
+      particles[i].draw();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+// ── 草地效果 ──
+(function(){
+  var grassContainer = document.getElementById('heroGrass');
+  if(!grassContainer) return;
+  
+  // 创建三层草地，营造景深
+  var layers = [
+    { name: 'back', count: 200, heightMin: 60, heightMax: 120, blur: 3 },
+    { name: 'mid', count: 250, heightMin: 40, heightMax: 90, blur: 1.5 },
+    { name: 'front', count: 180, heightMin: 30, heightMax: 70, blur: 0.5 }
+  ];
+  
+  layers.forEach(function(layer){
+    var layerDiv = document.createElement('div');
+    layerDiv.className = 'grass-layer ' + layer.name;
+    
+    for(var i = 0; i < layer.count; i++){
+      var blade = document.createElement('div');
+      var type = Math.random();
+      if(type < 0.3) blade.className = 'grass-blade tall';
+      else if(type < 0.6) blade.className = 'grass-blade short';
+      else blade.className = 'grass-blade';
+      
+      // 随机位置
+      blade.style.left = (Math.random() * 100) + '%';
+      
+      // 随机高度
+      var height = layer.heightMin + Math.random() * (layer.heightMax - layer.heightMin);
+      blade.style.height = height + 'px';
+      
+      // 随机倾斜
+      var skew = (Math.random() - 0.5) * 25;
+      blade.style.transform = 'skewX(' + skew + 'deg)';
+      
+      // 随机宽度
+      blade.style.width = (1.5 + Math.random() * 3) + 'px';
+      
+      layerDiv.appendChild(blade);
+    }
+    
+    grassContainer.appendChild(layerDiv);
+  });
+})();
+</script>
+</body>
 </html>
