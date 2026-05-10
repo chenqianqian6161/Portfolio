@@ -51,6 +51,7 @@
     ::selection { background: var(--accent); color: #fff; }
 
     /* ── NAV ── */
+    /* 首页顶部导航 */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -77,6 +78,97 @@
       display: flex;
       gap: 32px;
       list-style: none;
+    }
+    
+    /* 左侧边栏导航（非首页） */
+    .sidebar-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100vh;
+      background: rgba(248, 246, 242, 0.98);
+      backdrop-filter: blur(16px);
+      z-index: 99;
+      padding: 80px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-right: 1px solid var(--ink-faint);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .sidebar-nav.visible {
+      transform: translateX(0);
+    }
+    .sidebar-nav a {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: rgba(212, 120, 122, 0.1);
+      color: var(--accent);
+    }
+    .sidebar-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 101;
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: rgba(248, 246, 242, 0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .sidebar-toggle.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sidebar-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .sidebar-toggle:hover span {
+      background: var(--accent);
+    }
+    
+    /* 侧边栏显示时内容区偏移 */
+    .main-content {
+      transition: margin-left 0.4s cubic-bezier(.22,1,.36,1);
+    }
+    .main-content.sidebar-open {
+      margin-left: 200px;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar-nav {
+        width: 260px;
+      }
+      .main-content.sidebar-open {
+        margin-left: 0;
+      }
     }
     .nav-links a {
       text-decoration: none;
@@ -105,6 +197,26 @@
       inset: 0;
       background: rgba(255,255,255,0.35);
       pointer-events: none;
+    }
+    /* 竖条纹背景 */
+    .hero-stripes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    .hero-stripes::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 40px,
+        rgba(200, 220, 232, 0.25) 40px,
+        rgba(200, 220, 232, 0.25) 50px
+      );
     }
     /* 闪粉粒子层 */
     .sparkle-canvas {
@@ -1813,6 +1925,7 @@
   </script>
 
 <!-- ── NAV ── -->
+<!-- 首页顶部导航 -->
 <nav id="nav">
   <span class="nav-name"></span>
   <ul class="nav-links">
@@ -1829,8 +1942,28 @@
   </ul>
 </nav>
 
+<!-- 侧边栏导航（非首页显示） -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="打开导航">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+<aside class="sidebar-nav" id="sidebarNav">
+  <a href="#about" data-section="about">关于</a>
+  <a href="#education" data-section="education">教育</a>
+  <a href="#experience" data-section="experience">经历</a>
+  <a href="#projects" data-section="projects">项目</a>
+  <a href="#video" data-section="video">视频</a>
+  <a href="#photo" data-section="photo">照片</a>
+  <a href="#accounts" data-section="accounts">运营账号</a>
+  <a href="#scripts" data-section="scripts">奇思妙想</a>
+  <a href="#skills" data-section="skills">技能</a>
+  <a href="#contact" data-section="contact">联系</a>
+</aside>
+
 <!-- ── HERO ── -->
 <section class="hero" id="hero">
+  <div class="hero-stripes"></div>
   <canvas class="sparkle-canvas" id="sparkleCanvas"></canvas>
   <div class="hero-inner">
     <div class="hero-text">
@@ -1848,6 +1981,9 @@
     向下滚动
   </div>
 </section>
+
+<!-- 主内容区（侧边栏显示时偏移） -->
+<div class="main-content" id="mainContent">
 
 <!-- ── ABOUT ── -->
 <section class="about" id="about">
@@ -2748,11 +2884,72 @@
   <div class="footer-copy">© 2026 陈芊羽のPortfolio · New Media Portfolio</div>
 </footer>
 
+</div><!-- /main-content -->
+
 <script>
   // Nav scroll effect
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // 侧边栏导航控制
+  const sidebarNav = document.getElementById('sidebarNav');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const mainContent = document.getElementById('mainContent');
+  const heroSection = document.getElementById('hero');
+  
+  // 检测是否在首页（hero区域）
+  function updateNavVisibility() {
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    const isInHero = heroBottom > 100; // hero还在视口内
+    
+    if (isInHero) {
+      // 首页：显示顶部导航，隐藏侧边栏
+      nav.style.opacity = '1';
+      nav.style.pointerEvents = 'auto';
+      sidebarToggle.classList.remove('visible');
+      sidebarNav.classList.remove('visible');
+      mainContent.classList.remove('sidebar-open');
+    } else {
+      // 非首页：隐藏顶部导航，显示侧边栏按钮
+      nav.style.opacity = '0';
+      nav.style.pointerEvents = 'none';
+      sidebarToggle.classList.add('visible');
+    }
+  }
+  
+  window.addEventListener('scroll', updateNavVisibility);
+  updateNavVisibility(); // 初始检测
+  
+  // 侧边栏开关
+  sidebarToggle.addEventListener('click', () => {
+    sidebarNav.classList.toggle('visible');
+    mainContent.classList.toggle('sidebar-open');
+  });
+  
+  // 侧边栏链接点击后关闭侧边栏（移动端）
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        // 移动端关闭侧边栏
+        if (window.innerWidth <= 768) {
+          sidebarNav.classList.remove('visible');
+          mainContent.classList.remove('sidebar-open');
+        }
+      }
+    });
+  });
+  
+  // 点击内容区关闭侧边栏
+  mainContent.addEventListener('click', () => {
+    if (sidebarNav.classList.contains('visible')) {
+      sidebarNav.classList.remove('visible');
+      mainContent.classList.remove('sidebar-open');
+    }
   });
 
   // Reveal on scroll
