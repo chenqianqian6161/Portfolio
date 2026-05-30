@@ -1899,6 +1899,113 @@
     }
     .music-btn svg { pointer-events: none; }
 
+
+    /* ── 微信触发按钮 ── */
+    .wechat-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--warm) 0%, #fce4e6 100%);
+      border: 1.5px solid rgba(212, 120, 122, 0.25);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(.22,1,.36,1);
+      user-select: none;
+    }
+    .wechat-trigger:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 28px rgba(212,120,122,0.22);
+      border-color: var(--accent);
+    }
+    .wechat-trigger:active { transform: translateY(0) scale(0.98); }
+    .wechat-emoji {
+      font-size: 1.6rem;
+      line-height: 1;
+      animation: spriteBounce 2s ease-in-out infinite;
+    }
+    @keyframes spriteBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .wechat-hint {
+      font-size: 0.88rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── 微信二维码弹窗 ── */
+    .wechat-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .wechat-modal.active { display: flex; }
+    .wechat-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(42,48,72,0.55);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .wechat-modal-box {
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 44px 32px;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      animation: modalPop 0.35s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.88) translateY(16px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .wechat-modal-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      width: 32px; height: 32px;
+      border: none;
+      background: var(--warm);
+      border-radius: 50%;
+      font-size: 1.2rem;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .wechat-modal-close:hover { background: var(--accent); color: #fff; }
+    .wechat-modal-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .wechat-modal-qr {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: block;
+      margin: 0 auto;
+    }
+    .wechat-modal-hint {
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.03em;
+    }
   </style>
 
 </head>
@@ -2014,6 +2121,11 @@
         <p>
           同时具备扎实的线下活动执行能力，曾统筹协调百人级活动，擅长跨部门沟通与资源整合。做事细致有责任心，对互联网内容运营和活动策划有浓厚兴趣。
         </p>
+        <!-- 微信联系触发按钮 -->
+        <div class="wechat-trigger" onclick="openWechatModal()">
+          <span class="wechat-emoji">🧚</span>
+          <span class="wechat-hint">点击我即可添加微信</span>
+        </div>
       </div>
     </div>
   </div>
@@ -3568,6 +3680,32 @@ function setMusicPlaying(isPlaying){
     grassContainer.appendChild(layerDiv);
   });
 })();
+</script>
+
+<!-- 微信二维码弹窗 -->
+<div class="wechat-modal" id="wechatModal">
+  <div class="wechat-modal-overlay" onclick="closeWechatModal()"></div>
+  <div class="wechat-modal-box">
+    <button class="wechat-modal-close" onclick="closeWechatModal()">×</button>
+    <p class="wechat-modal-title">扫码添加微信</p>
+    <img class="wechat-modal-qr" src="wechat_qr.jpg" alt="微信二维码">
+    <p class="wechat-modal-hint">打开微信扫一扫</p>
+  </div>
+</div>
+
+<script>
+function openWechatModal() {
+  document.getElementById('wechatModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeWechatModal() {
+  document.getElementById('wechatModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+// ESC 关闭
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeWechatModal();
+});
 </script>
 </body>
 </html>
